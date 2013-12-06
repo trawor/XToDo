@@ -39,6 +39,26 @@
 
 
 
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    NSLog(@"Display %@",[item description]);
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+    //NSLog(@"content %@",[item description]);
+    return @"ok";
+}
+
+- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    if (![item isKindOfClass:[XToDoItem class]]) {
+        return [outlineView makeViewWithIdentifier:@"HeaderCell" owner:self];
+    } else {
+        NSTableCellView *cellView = [outlineView makeViewWithIdentifier:@"DataCell" owner:self];
+        
+        cellView.textField.stringValue = ((XToDoItem*)item).content;
+        return cellView;
+    }
+}
+
 -(NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item{
     if (item==nil) {
         return self.items.count;
@@ -50,7 +70,7 @@
     if (item==nil && self.items.count>0) {
         XToDoItem *item=[self.items objectAtIndex:index];
         
-        return item.content;
+        return item;
     }
     
     return nil;
