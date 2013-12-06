@@ -85,7 +85,7 @@
     NSString *string;
     string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
     
-    //NSLog(@"OUTPUT:%@",string);
+    NSLog(@"OUTPUT:%@",string);
     
     NSArray *results=[string componentsSeparatedByString:@"\n"];
     

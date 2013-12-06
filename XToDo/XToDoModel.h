@@ -10,9 +10,6 @@
 #import <AppKit/AppKit.h>
 
 
-DVTExtension
-
-
 @interface DVTChoice : NSObject
 - (id)initWithTitle:(id)arg1 toolTip:(id)arg2 image:(id)arg3 representedObject:(id)arg4;
 @end

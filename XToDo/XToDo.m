@@ -8,11 +8,12 @@
 
 #import "XToDo.h"
 #import "XToDoModel.h"
+#import "XToDoWindowController.h"
 
 static XToDo *sharedPlugin;
 
 @interface XToDo()
-@property (nonatomic, strong) NSPanel *panel;
+@property (nonatomic, strong) XToDoWindowController *windowController;
 @property (nonatomic, strong) NSBundle *bundle;
 @end
 
@@ -41,48 +42,23 @@ static XToDo *sharedPlugin;
 }
 
 
--(void)refresh{
-    NSString *projectPath= [[[XToDoModel currentWorkspaceDocument].workspace.representingFilePath.fileURL absoluteString] stringByDeletingLastPathComponent];
-    
-    NSArray *items=[XToDoModel findItemsWithPath:projectPath];
-    
-    
-    IDEWorkspaceTabController *tab= [XToDoModel tabController];
-    
-    
-    DVTChoice *choice=[[DVTChoice alloc] initWithTitle:@"ToDo" toolTip:@"Show the ToDo Nav" image:[[NSImage alloc] initWithContentsOfFile:[self.bundle pathForImageResource:@"todoIcon.png"]] representedObject:nil];
-    
-    NSArrayController *ac=tab.navigatorArea.extensionsController;
-    [ac addObject:choice];
-    
-    
-    for (NSObject *obj in tab.navigatorArea.extensionsController.content) {
-        NSLog([obj description]);
-    }
-    
-}
 
 - (void)doMenuAction
 {
-    if (self.panel==nil) {
-        self.panel=[[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 320, 568) styleMask:2 backing:NSBackingStoreNonretained defer:YES];
-        [self.panel setTitle:@"ToDo List"];
-        [self.panel setHasShadow:YES];
-        [self.panel setCanHide:YES];
+    if (self.windowController==nil) {
+        XToDoWindowController *wc=[[XToDoWindowController alloc] initWithWindowNibName:@"XToDoWindowController"];
+        self.windowController=wc;
     }
     
-    [self refresh];
-    
-    [self.panel makeKeyAndOrderFront:nil];
+    NSString *projectPath= [[[XToDoModel currentWorkspaceDocument].workspace.representingFilePath.fileURL absoluteString] stringByDeletingLastPathComponent];
+    self.windowController.projectPath=projectPath;
+    [self.windowController.window makeKeyAndOrderFront:nil];
 }
 
 - (id)initWithBundle:(NSBundle *)plugin {
     self = [super init];
     if (self) {
         self.bundle = plugin;
-        
-        
-        
         
         
         

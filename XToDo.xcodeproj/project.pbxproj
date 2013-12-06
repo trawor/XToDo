@@ -12,7 +12,6 @@
 		1F5B2E3E184712E6003529EC /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5B2E3D184712E6003529EC /* XCTest.framework */; };
 		1F5B2E44184712E6003529EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B2E42184712E6003529EC /* InfoPlist.strings */; };
 		1F5B2E46184712E6003529EC /* XToDo_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B2E45184712E6003529EC /* XToDo_Tests.m */; };
-		1F5B2E4D1847145C003529EC /* XToDoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF31A131846EABD00976E29 /* XToDoModel.m */; };
 		1F5B2E4E18471468003529EC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F67ED3E1846E54F00E9E6AD /* AppKit.framework */; };
 		1F5B2E4F1847146C003529EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F67ED401846E54F00E9E6AD /* Foundation.framework */; };
 		1F5B2E5118471B0A003529EC /* find.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B2E5018471B0A003529EC /* find.sh */; };
@@ -22,18 +21,21 @@
 		1F67ED471846E54F00E9E6AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F67ED451846E54F00E9E6AD /* InfoPlist.strings */; };
 		1F67ED4A1846E54F00E9E6AD /* XToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F67ED491846E54F00E9E6AD /* XToDo.m */; };
 		1FC6379318473F7800A2B1BF /* todoIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC6379218473F7800A2B1BF /* todoIcon.png */; };
+		1FCB6E821851D45B002E6BC3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FCB6E811851D45B002E6BC3 /* Cocoa.framework */; };
+		1FCB6E8C1851D45B002E6BC3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB6E8A1851D45B002E6BC3 /* InfoPlist.strings */; };
+		1FCB6E8E1851D45B002E6BC3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB6E8D1851D45B002E6BC3 /* main.m */; };
+		1FCB6E921851D45B002E6BC3 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB6E901851D45B002E6BC3 /* Credits.rtf */; };
+		1FCB6E951851D45B002E6BC3 /* XTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB6E941851D45B002E6BC3 /* XTAppDelegate.m */; };
+		1FCB6E9A1851D45B002E6BC3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB6E991851D45B002E6BC3 /* Images.xcassets */; };
+		1FCB6EB21851D481002E6BC3 /* XToDoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB0F201851BDB200E97FA1 /* XToDoWindowController.m */; };
+		1FCB6EB31851D481002E6BC3 /* XToDoWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FFB0F211851BDB200E97FA1 /* XToDoWindowController.xib */; };
+		1FCB6EB41851D487002E6BC3 /* XToDoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF31A131846EABD00976E29 /* XToDoModel.m */; };
+		1FCB6EB51851D758002E6BC3 /* find.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B2E5018471B0A003529EC /* find.sh */; };
 		1FF31A141846EABD00976E29 /* XToDoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF31A131846EABD00976E29 /* XToDoModel.m */; };
+		1FFB0F1C1851B6BD00E97FA1 /* XToDoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF31A131846EABD00976E29 /* XToDoModel.m */; };
+		1FFB0F221851BDB200E97FA1 /* XToDoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB0F201851BDB200E97FA1 /* XToDoWindowController.m */; };
+		1FFB0F231851BDB200E97FA1 /* XToDoWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FFB0F211851BDB200E97FA1 /* XToDoWindowController.xib */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		1F5B2E48184712E6003529EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1F67ED331846E54F00E9E6AD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1F67ED3A1846E54F00E9E6AD;
-			remoteInfo = XToDo;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1F40D85118473EA80010CDBA /* DVTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTKit.framework; path = ../../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTKit.framework; sourceTree = "<group>"; };
@@ -53,8 +55,24 @@
 		1F67ED491846E54F00E9E6AD /* XToDo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XToDo.m; sourceTree = "<group>"; };
 		1F67ED4B1846E54F00E9E6AD /* XToDo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XToDo-Prefix.pch"; sourceTree = "<group>"; };
 		1FC6379218473F7800A2B1BF /* todoIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todoIcon.png; sourceTree = "<group>"; };
+		1FCB6E801851D45B002E6BC3 /* XToDoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XToDoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FCB6E811851D45B002E6BC3 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1FCB6E841851D45B002E6BC3 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		1FCB6E851851D45B002E6BC3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1FCB6E861851D45B002E6BC3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1FCB6E891851D45B002E6BC3 /* XToDoApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "XToDoApp-Info.plist"; sourceTree = "<group>"; };
+		1FCB6E8B1851D45B002E6BC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1FCB6E8D1851D45B002E6BC3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1FCB6E8F1851D45B002E6BC3 /* XToDoApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XToDoApp-Prefix.pch"; sourceTree = "<group>"; };
+		1FCB6E911851D45B002E6BC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		1FCB6E931851D45B002E6BC3 /* XTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XTAppDelegate.h; sourceTree = "<group>"; };
+		1FCB6E941851D45B002E6BC3 /* XTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XTAppDelegate.m; sourceTree = "<group>"; };
+		1FCB6E991851D45B002E6BC3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1FF31A121846EABD00976E29 /* XToDoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XToDoModel.h; sourceTree = "<group>"; };
 		1FF31A131846EABD00976E29 /* XToDoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XToDoModel.m; sourceTree = "<group>"; };
+		1FFB0F1F1851BDB200E97FA1 /* XToDoWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XToDoWindowController.h; sourceTree = "<group>"; };
+		1FFB0F201851BDB200E97FA1 /* XToDoWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XToDoWindowController.m; sourceTree = "<group>"; };
+		1FFB0F211851BDB200E97FA1 /* XToDoWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XToDoWindowController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +94,14 @@
 				1F67ED3F1846E54F00E9E6AD /* AppKit.framework in Frameworks */,
 				1F67ED411846E54F00E9E6AD /* Foundation.framework in Frameworks */,
 				1F40D85218473EA80010CDBA /* DVTKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FCB6E7D1851D45B002E6BC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FCB6E821851D45B002E6BC3 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +132,7 @@
 			children = (
 				1F67ED421846E54F00E9E6AD /* XToDo */,
 				1F5B2E3F184712E6003529EC /* XToDo Tests */,
+				1FCB6E871851D45B002E6BC3 /* XToDoApp */,
 				1F67ED3D1846E54F00E9E6AD /* Frameworks */,
 				1F67ED3C1846E54F00E9E6AD /* Products */,
 			);
@@ -116,6 +143,7 @@
 			children = (
 				1F67ED3B1846E54F00E9E6AD /* XToDo.xcplugin */,
 				1F5B2E3C184712E6003529EC /* XToDo Tests.xctest */,
+				1FCB6E801851D45B002E6BC3 /* XToDoApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -127,6 +155,8 @@
 				1F67ED3E1846E54F00E9E6AD /* AppKit.framework */,
 				1F67ED401846E54F00E9E6AD /* Foundation.framework */,
 				1F5B2E3D184712E6003529EC /* XCTest.framework */,
+				1FCB6E811851D45B002E6BC3 /* Cocoa.framework */,
+				1FCB6E831851D45B002E6BC3 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -139,6 +169,9 @@
 				1F67ED481846E54F00E9E6AD /* XToDo.h */,
 				1F67ED491846E54F00E9E6AD /* XToDo.m */,
 				1F67ED431846E54F00E9E6AD /* Supporting Files */,
+				1FFB0F1F1851BDB200E97FA1 /* XToDoWindowController.h */,
+				1FFB0F201851BDB200E97FA1 /* XToDoWindowController.m */,
+				1FFB0F211851BDB200E97FA1 /* XToDoWindowController.xib */,
 			);
 			path = XToDo;
 			sourceTree = "<group>";
@@ -151,6 +184,39 @@
 				1F67ED451846E54F00E9E6AD /* InfoPlist.strings */,
 				1F67ED4B1846E54F00E9E6AD /* XToDo-Prefix.pch */,
 				1F5B2E5018471B0A003529EC /* find.sh */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1FCB6E831851D45B002E6BC3 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1FCB6E841851D45B002E6BC3 /* AppKit.framework */,
+				1FCB6E851851D45B002E6BC3 /* CoreData.framework */,
+				1FCB6E861851D45B002E6BC3 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		1FCB6E871851D45B002E6BC3 /* XToDoApp */ = {
+			isa = PBXGroup;
+			children = (
+				1FCB6E931851D45B002E6BC3 /* XTAppDelegate.h */,
+				1FCB6E941851D45B002E6BC3 /* XTAppDelegate.m */,
+				1FCB6E991851D45B002E6BC3 /* Images.xcassets */,
+				1FCB6E881851D45B002E6BC3 /* Supporting Files */,
+			);
+			path = XToDoApp;
+			sourceTree = "<group>";
+		};
+		1FCB6E881851D45B002E6BC3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1FCB6E891851D45B002E6BC3 /* XToDoApp-Info.plist */,
+				1FCB6E8A1851D45B002E6BC3 /* InfoPlist.strings */,
+				1FCB6E8D1851D45B002E6BC3 /* main.m */,
+				1FCB6E8F1851D45B002E6BC3 /* XToDoApp-Prefix.pch */,
+				1FCB6E901851D45B002E6BC3 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -169,7 +235,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				1F5B2E49184712E6003529EC /* PBXTargetDependency */,
 			);
 			name = "XToDo Tests";
 			productName = "XToDo Tests";
@@ -193,6 +258,23 @@
 			productReference = 1F67ED3B1846E54F00E9E6AD /* XToDo.xcplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		1FCB6E7F1851D45B002E6BC3 /* XToDoApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FCB6EB01851D45C002E6BC3 /* Build configuration list for PBXNativeTarget "XToDoApp" */;
+			buildPhases = (
+				1FCB6E7C1851D45B002E6BC3 /* Sources */,
+				1FCB6E7D1851D45B002E6BC3 /* Frameworks */,
+				1FCB6E7E1851D45B002E6BC3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XToDoApp;
+			productName = XToDoApp;
+			productReference = 1FCB6E801851D45B002E6BC3 /* XToDoApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -203,7 +285,7 @@
 				ORGANIZATIONNAME = "Plumn LLC";
 				TargetAttributes = {
 					1F5B2E3B184712E6003529EC = {
-						TestTargetID = 1F67ED3A1846E54F00E9E6AD;
+						TestTargetID = 1FCB6E7F1851D45B002E6BC3;
 					};
 				};
 			};
@@ -213,6 +295,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 1F67ED321846E54F00E9E6AD;
 			productRefGroup = 1F67ED3C1846E54F00E9E6AD /* Products */;
@@ -221,6 +304,7 @@
 			targets = (
 				1F67ED3A1846E54F00E9E6AD /* XToDo */,
 				1F5B2E3B184712E6003529EC /* XToDo Tests */,
+				1FCB6E7F1851D45B002E6BC3 /* XToDoApp */,
 			);
 		};
 /* End PBXProject section */
@@ -241,7 +325,20 @@
 			files = (
 				1FC6379318473F7800A2B1BF /* todoIcon.png in Resources */,
 				1F67ED471846E54F00E9E6AD /* InfoPlist.strings in Resources */,
+				1FFB0F231851BDB200E97FA1 /* XToDoWindowController.xib in Resources */,
 				1F5B2E5118471B0A003529EC /* find.sh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FCB6E7E1851D45B002E6BC3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FCB6E8C1851D45B002E6BC3 /* InfoPlist.strings in Resources */,
+				1FCB6E9A1851D45B002E6BC3 /* Images.xcassets in Resources */,
+				1FCB6EB31851D481002E6BC3 /* XToDoWindowController.xib in Resources */,
+				1FCB6E921851D45B002E6BC3 /* Credits.rtf in Resources */,
+				1FCB6EB51851D758002E6BC3 /* find.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F5B2E4D1847145C003529EC /* XToDoModel.m in Sources */,
+				1FFB0F1C1851B6BD00E97FA1 /* XToDoModel.m in Sources */,
 				1F5B2E46184712E6003529EC /* XToDo_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,19 +359,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F67ED4A1846E54F00E9E6AD /* XToDo.m in Sources */,
+				1FFB0F221851BDB200E97FA1 /* XToDoWindowController.m in Sources */,
 				1FF31A141846EABD00976E29 /* XToDoModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		1F5B2E49184712E6003529EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1F67ED3A1846E54F00E9E6AD /* XToDo */;
-			targetProxy = 1F5B2E48184712E6003529EC /* PBXContainerItemProxy */;
+		1FCB6E7C1851D45B002E6BC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FCB6EB21851D481002E6BC3 /* XToDoWindowController.m in Sources */,
+				1FCB6E951851D45B002E6BC3 /* XTAppDelegate.m in Sources */,
+				1FCB6EB41851D487002E6BC3 /* XToDoModel.m in Sources */,
+				1FCB6E8E1851D45B002E6BC3 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXTargetDependency section */
+/* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
 		1F5B2E42184712E6003529EC /* InfoPlist.strings */ = {
@@ -293,12 +394,29 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		1FCB6E8A1851D45B002E6BC3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FCB6E8B1851D45B002E6BC3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1FCB6E901851D45B002E6BC3 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FCB6E911851D45B002E6BC3 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1F5B2E4A184712E6003529EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/XToDoApp.app/Contents/MacOS/XToDoApp";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -312,6 +430,7 @@
 				);
 				INFOPLIST_FILE = "XToDo Tests/XToDo Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -319,6 +438,7 @@
 		1F5B2E4B184712E6003529EC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/XToDoApp.app/Contents/MacOS/XToDoApp";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -328,6 +448,7 @@
 				GCC_PREFIX_HEADER = "XToDo Tests/XToDo Tests-Prefix.pch";
 				INFOPLIST_FILE = "XToDo Tests/XToDo Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -438,6 +559,36 @@
 			};
 			name = Release;
 		};
+		1FCB6EAC1851D45C002E6BC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "XToDoApp/XToDoApp-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "XToDoApp/XToDoApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1FCB6EAD1851D45C002E6BC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "XToDoApp/XToDoApp-Prefix.pch";
+				INFOPLIST_FILE = "XToDoApp/XToDoApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -467,6 +618,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		1FCB6EB01851D45C002E6BC3 /* Build configuration list for PBXNativeTarget "XToDoApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FCB6EAC1851D45C002E6BC3 /* Debug */,
+				1FCB6EAD1851D45C002E6BC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
