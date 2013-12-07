@@ -10,7 +10,7 @@
 #import "XToDoModel.h"
 #import "XToDoWindowController.h"
 
-static XToDo *sharedPlugin;
+static XToDo* sharedPlugin=nil;
 
 @interface XToDo()
 @property (nonatomic, strong) XToDoWindowController *windowController;
@@ -21,62 +21,70 @@ static XToDo *sharedPlugin;
 
 + (void)pluginDidLoad:(NSBundle *)plugin
 {
-    NSLog(@"Plugin Load:%@",[plugin description]);
-    
-    static id sharedPlugin = nil;
     static dispatch_once_t onceToken;
+    
     NSString *currentApplicationName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
     if (sharedPlugin==nil && [currentApplicationName isEqual:@"Xcode"]) {
         dispatch_once(&onceToken, ^{
-            sharedPlugin = [[self alloc] initWithBundle:plugin];
+            sharedPlugin=[[self alloc] initWithBundle:plugin];
         });
     }
-    
-    
 }
 
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
-
-- (void)doMenuAction
-{
-    if (self.windowController==nil) {
-        XToDoWindowController *wc=[[XToDoWindowController alloc] initWithWindowNibName:@"XToDoWindowController"];
-        self.windowController=wc;
-    }
-    
-    NSString *projectPath= [[[XToDoModel currentWorkspaceDocument].workspace.representingFilePath.fileURL absoluteString] stringByDeletingLastPathComponent];
-    self.windowController.projectPath=projectPath;
-    [self.windowController.window makeKeyAndOrderFront:nil];
-}
 
 - (id)initWithBundle:(NSBundle *)plugin {
     self = [super init];
     if (self) {
         self.bundle = plugin;
         
-        
-        
-        
+        //insert a menuItem to MainMenu "Window"
         NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"View"];
         if (menuItem) {
             [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
+            
             NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"ToDo List"
-                                                                    action:@selector(doMenuAction) keyEquivalent:@""];
+                                                                    action:@selector(openList)
+                                                             keyEquivalent:@"t"];
+            
+            [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
+            
+            
             [actionMenuItem setTarget:self];
             [[menuItem submenu] addItem:actionMenuItem];
+            
+            //TODO: support snippets to add TODO
         }
     }
     return self;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-    
-        return YES;
+    return [XToDoModel currentWorkspaceDocument].workspace!=nil;
 }
+
+- (void)openList
+{
+    //toggle the todo list window
+    if (self.windowController.window.isVisible) {
+        [self.windowController.window close];
+    }else{
+        if (self.windowController==nil) {
+            XToDoWindowController *wc=[[XToDoWindowController alloc] initWithWindowNibName:@"XToDoWindowController"];
+            self.windowController=wc;
+            self.windowController.window.title= [[XToDoModel currentWorkspaceDocument].displayName stringByDeletingLastPathComponent];
+        }
+        
+        NSString *projectPath= [[[XToDoModel currentWorkspaceDocument].workspace.representingFilePath.fileURL
+                                 path]
+                                stringByDeletingLastPathComponent];
+        
+        //!!!: how about the path is nil?
+        self.windowController.projectPath=projectPath;
+        [self.windowController.window makeKeyAndOrderFront:nil];
+        
+        [self.windowController refresh:nil];
+    }
+    
+}
+
 @end

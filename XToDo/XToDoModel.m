@@ -7,6 +7,9 @@
 //
 
 #import "XToDoModel.h"
+#import <objc/runtime.h>
+
+static NSBundle *pluginBundle;
 
 @implementation XToDoItem
 
@@ -85,7 +88,7 @@
     NSString *string;
     string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
     
-    //NSLog(@"OUTPUT:%@",string);
+    //NSLog(@"Path:%@\nOUTPUT:%@",projectPath,string);
     
     NSArray *results=[string componentsSeparatedByString:@"\n"];
     
@@ -123,8 +126,27 @@
             s=[s stringByAppendingFormat:@":%@",cpt[i]];
         }
         item.content=[s stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+        
+        //TODO: item is completed?
+        //TODO: int type
     }
     return item;
 }
 
++(BOOL)openItem:(XToDoItem *)item{
+    
+    //IDESourceCodeEditor *editor=[self currentEditor];
+    
+    NSURL *fileURL=[NSURL fileURLWithPath:item.filePath];
+    
+    
+    NSLog(@"will open item: [%ld] %@",item.lineNumber,[fileURL path]);
+    
+    //FIXME: pretty slow to open file with applescript
+    //???: use IDEDiagnosticItem?
+    NSString *theSource = [NSString stringWithFormat: @"do shell script \"xed --line %ld \" & quoted form of \"%@\"", item.lineNumber,item.filePath];
+    NSAppleScript *theScript = [[NSAppleScript alloc] initWithSource:theSource];
+    [theScript performSelectorInBackground:@selector(executeAndReturnError:) withObject:nil];
+    return YES;
+}
 @end

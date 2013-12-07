@@ -7,8 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "XTAppDelegate.h"
 int main(int argc, const char * argv[])
 {
-    return NSApplicationMain(argc, argv);
+    XTAppDelegate * delegate = [[XTAppDelegate alloc] init];
+    [[NSApplication sharedApplication] setDelegate:delegate];
+    [NSApp run];
+    return EXIT_SUCCESS;
 }

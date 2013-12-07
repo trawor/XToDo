@@ -86,9 +86,11 @@
 @end
 
 @interface IDEDocumentController : NSDocumentController
++(IDEDocumentController*)sharedDocumentController;
 + (id)editorDocumentForNavigableItem:(id)arg1;
 + (id)retainedEditorDocumentForNavigableItem:(id)arg1 error:(id *)arg2;
 + (void)releaseEditorDocument:(id)arg1;
+
 @end
 
 @interface IDESourceCodeDocument : NSDocument
@@ -111,6 +113,10 @@
 @end
 
 @interface IDEEditorArea : NSObject
+- (IDEEditorContext *)lastActiveEditorContext;
+@end
+
+@interface IDEConsoleArea : NSObject
 - (IDEEditorContext *)lastActiveEditorContext;
 @end
 
@@ -145,10 +151,12 @@
 @end
 
 @interface XToDoModel : NSObject
+
 + (IDEWorkspaceDocument *)currentWorkspaceDocument;
 + (IDEWorkspaceTabController*)tabController;
 
 + (NSArray*)findItemsWithPath:(NSString*)projectPath;
 
++(BOOL)openItem:(XToDoItem*)item;
 
 @end

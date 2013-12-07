@@ -9,23 +9,92 @@
 #import "XToDoWindowController.h"
 #import "XToDoModel.h"
 
+//TODO: add pull to refresh http://www.oschina.net/p/itpulltorefreshscrollview
+
+
+
+
+@implementation ToDoCellView
+
+- (id)initWithFrame:(NSRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        NSImageView *iv=[[NSImageView alloc] initWithFrame:NSMakeRect(0, 10, 16, 16)];
+        iv.image=[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForImageResource:@"checkmark_off"]];
+        [self addSubview:iv];
+        
+        NSTextField *titleField=[[NSTextField alloc] initWithFrame:NSMakeRect(20, 15, frame.size.width-20, 20)];
+        titleField.font=[NSFont systemFontOfSize:14];
+        [self addSubview:titleField];
+        self.titleField=titleField;
+        
+        
+        NSTextField *fileField=[[NSTextField alloc] initWithFrame:NSMakeRect(20, 0, frame.size.width-20, 15)];
+        fileField.font=[NSFont systemFontOfSize:11];
+        fileField.textColor=[NSColor darkGrayColor];
+        [self addSubview:fileField];
+        self.fileField=fileField;
+        
+        
+        [titleField setBezeled:NO];
+        [titleField setDrawsBackground:NO];
+        [titleField setEditable:NO];
+        [titleField setSelectable:NO];
+        
+        [fileField setBezeled:NO];
+        [fileField setDrawsBackground:NO];
+        [fileField setEditable:NO];
+        [fileField setSelectable:NO];
+        
+    }
+    return self;
+}
+
+
+@end
+
+
 @interface XToDoWindowController ()<NSOutlineViewDataSource,NSOutlineViewDelegate>
 @property (weak) IBOutlet NSOutlineView *listView;
+
+@property(nonatomic,retain)NSMutableDictionary *data;
 
 @end
 
 @implementation XToDoWindowController
+static NSArray *types=Nil;
 
-
-- (void)windowDidLoad
-{
-    [super windowDidLoad];
-    self.window.level=NSFloatingWindowLevel;
-    [self refresh:nil];
++(void)initialize{
+    //the todo type we will show
+    types=@[@"TODO",@"FIXME",@"???",@"!!!"];
+    
 }
+
+-(void)windowDidLoad{
+    [super windowDidLoad];
+    self.listView.indentationMarkerFollowsCell=NO;
+    self.listView.indentationPerLevel=10.0;
+    self.listView.allowsMultipleSelection=NO;
+
+    self.window.level=NSFloatingWindowLevel;
+    self.data=[NSMutableDictionary dictionaryWithCapacity:5];
+}
+
 
 -(void)setItems:(NSArray *)items{
     _items=items;
+    
+    for (NSString *type in types) {
+        NSPredicate *pred=[NSPredicate predicateWithFormat:@"SELF.typeString = %@",type];
+        NSArray *arr=[items filteredArrayUsingPredicate:pred];
+        if (arr.count) {
+            [self.data setObject:arr forKey:type];
+        }else{
+            [self.data removeObjectForKey:type];
+        }
+    }
+    
    [self.listView reloadData];
 }
 
@@ -33,53 +102,89 @@
     if (self.projectPath==nil) {
         return;
     }
+    
+    //TODO: show refresh stat
+    
     NSArray *items=[XToDoModel findItemsWithPath:self.projectPath];
     self.items=items;
 }
 
 
+-(CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item{
+    if ([item isKindOfClass:[XToDoItem class]]) {
+        return 35.0;
+    }
+    return 25;
+}
 
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(XToDoItem*)item {
     NSLog(@"Display %@",[item description]);
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-    //NSLog(@"content %@",[item description]);
-    return @"ok";
-}
 
-- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(XToDoItem*)item {
     if (![item isKindOfClass:[XToDoItem class]]) {
-        return [outlineView makeViewWithIdentifier:@"HeaderCell" owner:self];
-    } else {
-        NSTableCellView *cellView = [outlineView makeViewWithIdentifier:@"DataCell" owner:self];
+        NSTableCellView *cellView= [outlineView makeViewWithIdentifier:@"HeaderCell" owner:self];
+        cellView.textField.stringValue=(id)item;
         
-        cellView.textField.stringValue = ((XToDoItem*)item).content;
+        return cellView;
+    } else {
+        
+        NSString *cellID=@"TodoCell";
+        
+        ToDoCellView *cellView =[outlineView makeViewWithIdentifier:cellID owner:self];
+        
+        if (cellView==nil) {
+            cellView = [[ToDoCellView alloc] initWithFrame:NSMakeRect(0, 0, outlineView.bounds.size.width, 35)];
+            
+            cellView.identifier = cellID;
+            
+        }
+
+        cellView.titleField.stringValue = item.content;
+        cellView.fileField.stringValue = [item.filePath lastPathComponent];
+        
+        //TODO: update 'complate' stat image
         return cellView;
     }
 }
 
 -(NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item{
     if (item==nil) {
-        return self.items.count;
+        return self.data.count;
     }
-    return 0;
+    return [self.data[item] count];
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item{
-    if (item==nil && self.items.count>0) {
-        XToDoItem *item=[self.items objectAtIndex:index];
-        
-        return item;
+    if (item==nil) {
+        //TODO: 中文本地化
+        return types[index];
     }
     
-    return nil;
+    return [self.data[item] objectAtIndex:index];
 }
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item{
-    if (item) {
+    if ([item isKindOfClass:[XToDoItem class]]) {
         return NO;
     }
     return YES;
+}
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification{
+    NSOutlineView *outlineView=notification.object;
+    
+    NSInteger row=[outlineView selectedRow];
+    
+    XToDoItem *item = [outlineView itemAtRow:row];
+    
+    
+    if ([item isKindOfClass:[XToDoItem class]]) {
+        [XToDoModel openItem:item];
+        
+    }else{
+        [outlineView deselectRow:row];
+    }
+
 }
 
 

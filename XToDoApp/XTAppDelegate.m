@@ -23,11 +23,13 @@
         self.windowController=wc;
     }
     
-    self.windowController.projectPath=@"/Users/Travis/Documents";
+    self.windowController.projectPath=@"/Users/Travis/Development/Work";
     [self.windowController.window makeKeyAndOrderFront:nil];
     
     
     self.window=self.windowController.window;
+    
+    [self.windowController refresh:nil];
 }
 
 @end

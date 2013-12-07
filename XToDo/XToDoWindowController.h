@@ -8,10 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
+@interface ToDoCellView : NSTableCellView
+@property(nonatomic,strong)NSTextField *titleField;
+@property(nonatomic,strong)NSTextField *fileField;
+@end
+
 @interface XToDoWindowController : NSWindowController
 
 @property(nonatomic,retain) NSArray *items;
 
 @property(nonatomic,copy) NSString *projectPath;
 
+
+- (IBAction)refresh:(id)sender;
 @end
