@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1080" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
@@ -93,7 +94,6 @@
             </view>
             <toolbar key="toolbar" implicitIdentifier="FE022600-8BEC-4CD9-9E13-4B6746454E02" autosavesConfiguration="NO" displayMode="labelOnly" sizeMode="regular" id="rEi-SS-K4T">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="mwe-9N-LWE"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="u08-bj-rSv"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Hlr-zW-dBx"/>
                     <toolbarItem implicitItemIdentifier="6A52FE22-2E51-46AC-94C9-915FF5CEDCCE" label="Refresh" paletteLabel="Refresh" tag="-1" image="NSMenuOnStateTemplate" id="bpk-vh-Cwi">
@@ -101,14 +101,17 @@
                             <action selector="refresh:" target="-2" id="OgX-l5-TrC"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="78E7E285-E5E6-46D3-B17C-A9A61F0FF969" label="ToDo" paletteLabel="ToDo" tag="-1" image="NSStatusAvailable" selectable="YES" id="KZD-Jd-wdi"/>
-                    <toolbarItem implicitItemIdentifier="DB4E415A-579E-4E42-AF42-E941A4F3F0E8" label="FixMe" paletteLabel="FixMe" tag="-1" image="NSStatusUnavailable" selectable="YES" id="Jbw-Lf-ssm"/>
-                    <toolbarItem implicitItemIdentifier="B5F82F62-00F1-470E-80FA-41B238326ECF" label="Question" paletteLabel="Question" tag="-1" image="NSStatusNone" selectable="YES" id="hWv-4T-t0N"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSeparatorItem" id="ZhF-7h-yzz"/>
+                    <toolbarItem implicitItemIdentifier="3BFB0C60-B9D3-4253-A618-6E1A7C5DA914" label="About" paletteLabel="About" tag="-1" image="NSFollowLinkFreestandingTemplate" id="s7c-lS-Xl6">
+                        <connections>
+                            <action selector="openAbout:" target="-2" id="qbx-jE-aWJ"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="bpk-vh-Cwi"/>
                     <toolbarItem reference="Hlr-zW-dBx"/>
+                    <toolbarItem reference="s7c-lS-Xl6"/>
                 </defaultToolbarItems>
             </toolbar>
             <connections>
@@ -117,9 +120,7 @@
         </window>
     </objects>
     <resources>
+        <image name="NSFollowLinkFreestandingTemplate" width="10" height="10"/>
         <image name="NSMenuOnStateTemplate" width="11" height="11"/>
-        <image name="NSStatusAvailable" width="16" height="16"/>
-        <image name="NSStatusNone" width="16" height="16"/>
-        <image name="NSStatusUnavailable" width="16" height="16"/>
     </resources>
 </document>

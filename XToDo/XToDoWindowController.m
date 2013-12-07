@@ -70,6 +70,9 @@ static NSArray *types=Nil;
     types=@[@"TODO",@"FIXME",@"???",@"!!!"];
     
 }
+- (IBAction)openAbout:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://weibo.com/trawor"]];
+}
 
 -(void)windowDidLoad{
     [super windowDidLoad];
