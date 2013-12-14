@@ -125,7 +125,7 @@
 - (IDEEditorArea *)editorArea;
 @end
 
-@interface IDEWorkspace : NSObject
+@interface IDEWorkspace : NSWorkspace
 @property (readonly) DVTFilePath *representingFilePath;
 @end
 
@@ -154,6 +154,7 @@
 
 + (IDEWorkspaceDocument *)currentWorkspaceDocument;
 + (IDEWorkspaceTabController*)tabController;
++ (IDESourceCodeEditor*)currentEditor;
 
 + (NSArray*)findItemsWithPath:(NSString*)projectPath;
 

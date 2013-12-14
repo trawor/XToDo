@@ -140,13 +140,31 @@ static NSBundle *pluginBundle;
     NSURL *fileURL=[NSURL fileURLWithPath:item.filePath];
     
     
-    NSLog(@"will open item: [%ld] %@",item.lineNumber,[fileURL path]);
+    //open the file
+    BOOL result=[[NSWorkspace sharedWorkspace] openFile:item.filePath withApplication:@"Xcode"];
     
-    //FIXME: pretty slow to open file with applescript
-    //???: use IDEDiagnosticItem?
-    NSString *theSource = [NSString stringWithFormat: @"do shell script \"xed --line %ld \" & quoted form of \"%@\"", item.lineNumber,item.filePath];
-    NSAppleScript *theScript = [[NSAppleScript alloc] initWithSource:theSource];
-    [theScript performSelectorInBackground:@selector(executeAndReturnError:) withObject:nil];
-    return YES;
+    //open the line
+    if (result) {
+        IDESourceCodeEditor *editor=[XToDoModel currentEditor];
+        NSTextView *textView=editor.textView;
+        if (textView) {
+            NSString *viewContent = [textView string];
+            NSRange range= [viewContent lineRangeForRange:NSMakeRange(item.lineNumber, 1)];
+            
+            //FIXME: the line is not selected or highlighted
+            [textView setSelectedRange:range];
+            [textView selectLine:nil];
+        }else{
+            //FIXME: pretty slow to open file with applescript
+            
+            NSString *theSource = [NSString stringWithFormat: @"do shell script \"xed --line %ld \" & quoted form of \"%@\"", item.lineNumber,item.filePath];
+            NSAppleScript *theScript = [[NSAppleScript alloc] initWithSource:theSource];
+            [theScript performSelectorInBackground:@selector(executeAndReturnError:) withObject:nil];
+
+            return NO;
+        }
+    }
+    
+    return result;
 }
 @end

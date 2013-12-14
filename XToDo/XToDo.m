@@ -43,7 +43,7 @@ static XToDo* sharedPlugin=nil;
             [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
             
             NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"ToDo List"
-                                                                    action:@selector(openList)
+                                                                    action:@selector(toggleList)
                                                              keyEquivalent:@"t"];
             
             [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
@@ -53,6 +53,16 @@ static XToDo* sharedPlugin=nil;
             [[menuItem submenu] addItem:actionMenuItem];
             
             //TODO: support snippets to add TODO
+            
+            actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"ToDo Snippet"
+                                                         action:@selector(insertToDo)
+                                                  keyEquivalent:@"t"];
+            
+            [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask|NSShiftKeyMask];
+            
+            
+            [actionMenuItem setTarget:self];
+            [[menuItem submenu] addItem:actionMenuItem];
         }
     }
     return self;
@@ -62,7 +72,9 @@ static XToDo* sharedPlugin=nil;
     return [XToDoModel currentWorkspaceDocument].workspace!=nil;
 }
 
-- (void)openList
+#pragma mark ment actions
+#pragma mark -
+- (void)toggleList
 {
     //toggle the todo list window
     if (self.windowController.window.isVisible) {
@@ -85,6 +97,19 @@ static XToDo* sharedPlugin=nil;
         [self.windowController refresh:nil];
     }
     
+}
+
+-(void)insertToDo{
+    NSString *cmt=[NSString stringWithFormat:@"//%@: ",@"TODO"];
+    [self insertComment:cmt];
+}
+
+-(void)insertComment:(NSString*)cmt{
+    IDESourceCodeEditor *editor=[XToDoModel currentEditor];
+    NSTextView *textView=editor.textView;
+    if (textView) {
+        [textView insertText:cmt];
+    }
 }
 
 @end

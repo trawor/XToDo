@@ -161,7 +161,6 @@ static NSArray *types=Nil;
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item{
     if (item==nil) {
-        //TODO: 中文本地化
         return types[index];
     }
     
