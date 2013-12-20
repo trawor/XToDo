@@ -89,7 +89,7 @@ static NSArray *types=Nil;
     _items=items;
     
     for (NSString *type in types) {
-        NSPredicate *pred=[NSPredicate predicateWithFormat:@"SELF.typeString = %@",type];
+        NSPredicate *pred=[NSPredicate predicateWithFormat:@"typeString = %@",type];
         NSArray *arr=[items filteredArrayUsingPredicate:pred];
         if (arr.count) {
             [self.data setObject:arr forKey:type];
@@ -154,7 +154,7 @@ static NSArray *types=Nil;
 
 -(NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item{
     if (item==nil) {
-        return self.data.count;
+        return types.count;
     }
     return [self.data[item] count];
 }

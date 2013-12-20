@@ -52,8 +52,7 @@ static XToDo* sharedPlugin=nil;
             [actionMenuItem setTarget:self];
             [[menuItem submenu] addItem:actionMenuItem];
             
-            //TODO: support snippets to add TODO
-            
+            //support snippets to add TODO
             actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"ToDo Snippet"
                                                          action:@selector(insertToDo)
                                                   keyEquivalent:@"t"];
@@ -108,6 +107,7 @@ static XToDo* sharedPlugin=nil;
     IDESourceCodeEditor *editor=[XToDoModel currentEditor];
     NSTextView *textView=editor.textView;
     if (textView) {
+        //FIXME: stop the input course change line
         [textView insertText:cmt];
     }
 }

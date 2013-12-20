@@ -14,6 +14,9 @@ static NSBundle *pluginBundle;
 @implementation XToDoItem
 
 
+-(NSString*)description{
+    return [NSString stringWithFormat:@"XToDoItem[%@]: %@",self.typeString,self.content];
+}
 
 @end
 
@@ -127,18 +130,13 @@ static NSBundle *pluginBundle;
         }
         item.content=[s stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
         
-        //TODO: item is completed?
+        //???: item is completed?
         //TODO: int type
     }
     return item;
 }
 
 +(BOOL)openItem:(XToDoItem *)item{
-    
-    //IDESourceCodeEditor *editor=[self currentEditor];
-    
-    NSURL *fileURL=[NSURL fileURLWithPath:item.filePath];
-    
     
     //open the file
     BOOL result=[[NSWorkspace sharedWorkspace] openFile:item.filePath withApplication:@"Xcode"];
