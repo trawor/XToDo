@@ -23,10 +23,7 @@
         self.windowController=wc;
     }
     
-    //FIXME: should open a dialog to select project path
-    self.windowController.projectPath=@"~/Development/Work";
     [self.windowController.window makeKeyAndOrderFront:nil];
-    
     
     self.window=self.windowController.window;
     

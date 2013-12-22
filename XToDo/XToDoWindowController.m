@@ -101,8 +101,28 @@ static NSArray *types=Nil;
    [self.listView reloadData];
 }
 
+-(IBAction)showOpenPanel:(id)sender {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseFiles:NO];
+    [panel setCanChooseDirectories:YES];
+
+    [panel beginSheetModalForWindow:[self window] completionHandler: (^(NSInteger result){
+        if(result == NSOKButton) {
+            NSArray *fileURLs = [panel URLs];
+            self.projectPath=[[fileURLs objectAtIndex:0] path];
+            [self refresh:sender];
+            
+        }
+    })];
+}
+
 - (IBAction)refresh:(id)sender {
     if (self.projectPath==nil) {
+        //show a dialog to select path
+        
+        [self showOpenPanel:sender];
+        
+        
         return;
     }
     
