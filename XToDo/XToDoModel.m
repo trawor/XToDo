@@ -33,7 +33,7 @@ static NSBundle *pluginBundle;
 }
 
 + (id)currentEditor {
-    NSWindowController *currentWindowController = [[NSApp keyWindow] windowController];
+    NSWindowController *currentWindowController = [[NSApp mainWindow] windowController];
     if ([currentWindowController isKindOfClass:NSClassFromString(@"IDEWorkspaceWindowController")]) {
         IDEWorkspaceWindowController *workspaceController = (IDEWorkspaceWindowController *)currentWindowController;
         IDEEditorArea *editorArea = [workspaceController editorArea];
@@ -43,7 +43,7 @@ static NSBundle *pluginBundle;
     return nil;
 }
 + (IDEWorkspaceDocument *)currentWorkspaceDocument {
-    NSWindowController *currentWindowController = [[NSApp keyWindow] windowController];
+    NSWindowController *currentWindowController = [[NSApp mainWindow] windowController];
     id document = [currentWindowController document];
     if (currentWindowController && [document isKindOfClass:NSClassFromString(@"IDEWorkspaceDocument")]) {
         return (IDEWorkspaceDocument *)document;
@@ -136,24 +136,67 @@ static NSBundle *pluginBundle;
     return item;
 }
 
++(void)highlightItem:(XToDoItem*)item inTextView:(NSTextView*)textView{
+    NSUInteger lineNumber=item.lineNumber-1;
+    NSString *text = [textView string];
+    
+    NSRegularExpression *re=[NSRegularExpression regularExpressionWithPattern:@"\n" options:0 error:nil];
+    
+    NSArray *result=[re matchesInString:text options:NSMatchingReportCompletion range:NSMakeRange(0, text.length)];
+    
+    if (result.count<=lineNumber) {
+        return;
+    }
+    
+    NSUInteger location=0;
+    NSTextCheckingResult *aim=result[lineNumber];
+    location= aim.range.location;
+    
+    NSRange range=[text lineRangeForRange:NSMakeRange(location, 0)];
+    
+    [textView scrollRangeToVisible:range];
+    
+    [textView showFindIndicatorForRange:range];
+    
+}
+
+
 +(BOOL)openItem:(XToDoItem *)item{
+    
+    NSWindowController *currentWindowController = [[NSApp mainWindow] windowController];
+    
+    NSLog(@"currentWindowController %@",[currentWindowController description]);
+    
+    if ([currentWindowController isKindOfClass:NSClassFromString(@"IDEWorkspaceWindowController")]) {
+        
+        NSLog(@"Open in current Xocde");
+        if ([[NSApp delegate] application:NSApp openFile:item.filePath]) {
+            
+            IDESourceCodeEditor *editor=[XToDoModel currentEditor];
+            NSTextView *textView=editor.textView;
+            if (textView) {
+                
+                [self highlightItem:item inTextView:textView];
+                
+                return YES;
+            }
+        }
+    }
+    
     
     //open the file
     BOOL result=[[NSWorkspace sharedWorkspace] openFile:item.filePath withApplication:@"Xcode"];
     
     //open the line
     if (result) {
+        NSLog(@"Open in default Xocde");
         IDESourceCodeEditor *editor=[XToDoModel currentEditor];
         NSTextView *textView=editor.textView;
         if (textView) {
-            NSString *viewContent = [textView string];
-            NSRange range= [viewContent lineRangeForRange:NSMakeRange(item.lineNumber, 1)];
-            
-            //FIXME: the line is not selected or highlighted
-            [textView setSelectedRange:range];
-            [textView selectLine:nil];
+            [self highlightItem:item inTextView:textView];
         }else{
-            //FIXME: pretty slow to open file with applescript
+            //pretty slow to open file with applescript
+            NSLog(@"highlight line with applescript");
             
             NSString *theSource = [NSString stringWithFormat: @"do shell script \"xed --line %ld \" & quoted form of \"%@\"", item.lineNumber,item.filePath];
             NSAppleScript *theScript = [[NSAppleScript alloc] initWithSource:theSource];
