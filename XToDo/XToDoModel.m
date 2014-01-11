@@ -173,12 +173,14 @@ static NSBundle *pluginBundle;
         if ([[NSApp delegate] application:NSApp openFile:item.filePath]) {
             
             IDESourceCodeEditor *editor=[XToDoModel currentEditor];
-            NSTextView *textView=editor.textView;
-            if (textView) {
-                
-                [self highlightItem:item inTextView:textView];
-                
-                return YES;
+            if ([editor isKindOfClass:NSClassFromString(@"IDESourceCodeEditor")]) {
+                NSTextView *textView=editor.textView;
+                if (textView) {
+                    
+                    [self highlightItem:item inTextView:textView];
+                    
+                    return YES;
+                }
             }
         }
     }
@@ -189,21 +191,15 @@ static NSBundle *pluginBundle;
     
     //open the line
     if (result) {
-        NSLog(@"Open in default Xocde");
-        IDESourceCodeEditor *editor=[XToDoModel currentEditor];
-        NSTextView *textView=editor.textView;
-        if (textView) {
-            [self highlightItem:item inTextView:textView];
-        }else{
+       
             //pretty slow to open file with applescript
-            NSLog(@"highlight line with applescript");
-            
+        
             NSString *theSource = [NSString stringWithFormat: @"do shell script \"xed --line %ld \" & quoted form of \"%@\"", item.lineNumber,item.filePath];
             NSAppleScript *theScript = [[NSAppleScript alloc] initWithSource:theSource];
             [theScript performSelectorInBackground:@selector(executeAndReturnError:) withObject:nil];
 
             return NO;
-        }
+        
     }
     
     return result;
