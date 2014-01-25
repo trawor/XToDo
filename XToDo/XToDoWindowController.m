@@ -26,6 +26,8 @@
         
         NSTextField *titleField=[[NSTextField alloc] initWithFrame:NSMakeRect(20, 15, frame.size.width-20, 20)];
         titleField.font=[NSFont systemFontOfSize:14];
+        [titleField setAutoresizingMask:NSViewWidthSizable];
+        [[titleField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
         [self addSubview:titleField];
         self.titleField=titleField;
         
@@ -33,6 +35,8 @@
         NSTextField *fileField=[[NSTextField alloc] initWithFrame:NSMakeRect(20, 0, frame.size.width-20, 15)];
         fileField.font=[NSFont systemFontOfSize:11];
         fileField.textColor=[NSColor darkGrayColor];
+        [fileField setAutoresizingMask:NSViewWidthSizable];
+        [[fileField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
         [self addSubview:fileField];
         self.fileField=fileField;
         
