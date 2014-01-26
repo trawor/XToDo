@@ -19,6 +19,5 @@
 
 @property(nonatomic,copy) NSString *projectPath;
 
-
 - (IBAction)refresh:(id)sender;
 @end

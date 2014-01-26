@@ -9,6 +9,9 @@
 #import "XToDoModel.h"
 #import <objc/runtime.h>
 
+#import "XToDoPreferencesWindowController.h"
+
+
 static NSBundle *pluginBundle;
 
 @implementation XToDoItem
@@ -68,13 +71,40 @@ static NSBundle *pluginBundle;
     return nil;
 }
 
+//TESTME: some tests!
+
++ (NSString*)scannedStrings {
+    NSArray* prefsStrings = [[NSUserDefaults standardUserDefaults] objectForKey:kXToDoTagsKey];
+    NSMutableArray* escapedStrings = [NSMutableArray arrayWithCapacity:[prefsStrings count]];
+    
+    for (NSString* origStr in prefsStrings) {
+        NSMutableString* str = [NSMutableString string];
+        
+        for (NSUInteger i=0; i<[origStr length]; i++) {
+            unichar c = [origStr characterAtIndex:i];
+            
+            if (!isalpha(c) && ! isnumber(c)) {
+                [str appendFormat:@"\\%C", c];
+            } else {
+                [str appendFormat:@"%C", c];
+            }
+        }
+        
+        [str appendFormat:@"\\:"];
+        
+        [escapedStrings addObject:str];
+    }
+    
+    return [escapedStrings componentsJoinedByString:@"|"];
+}
+
 + (NSArray*)findItemsWithPath:(NSString*)projectPath{
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:@"/bin/bash"];
     
     NSString *shellPath=[[NSBundle bundleForClass:[self class]] pathForResource:@"find" ofType:@"sh"];
     
-    [task setArguments:@[shellPath,projectPath]];
+    [task setArguments:@[shellPath,projectPath, [self scannedStrings]]];
 
     NSPipe *pipe;
     pipe = [NSPipe pipe];
@@ -98,7 +128,11 @@ static NSBundle *pluginBundle;
     NSMutableArray *arr=[NSMutableArray array];
     for (NSString *line in results) {
         if (line.length>4) {
-            [arr addObject:[self itemFromLine:line]];
+            id anItem = [self itemFromLine:line];
+            
+            if (nil != anItem) {
+                [arr addObject:anItem];
+            }
         }
     }
     return arr;

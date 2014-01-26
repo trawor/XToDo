@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1080" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -18,20 +18,20 @@
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" transient="YES" fullScreenAuxiliary="YES"/>
             <windowPositionMask key="initialPositionMask" rightStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1193" y="257" width="320" height="400"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
             <value key="minSize" type="size" width="320" height="400"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="34" horizontalPageScroll="10" verticalLineScroll="34" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTU-oT-VnD">
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTU-oT-VnD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="d4x-zJ-UU4">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="34" rowSizeStyle="systemDefault" viewBased="YES" indentationPerLevel="16" outlineTableColumn="poP-lE-uPQ" id="IEj-77-EWU">
+                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="systemDefault" viewBased="YES" indentationPerLevel="16" outlineTableColumn="poP-lE-uPQ" id="IEj-77-EWU">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="0.0"/>
@@ -112,9 +112,14 @@
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="NSToolbarSeparatorItem" id="ZhF-7h-yzz"/>
-                    <toolbarItem implicitItemIdentifier="3BFB0C60-B9D3-4253-A618-6E1A7C5DA914" label="About" paletteLabel="About" tag="-1" image="NSFollowLinkFreestandingTemplate" id="s7c-lS-Xl6">
+                    <toolbarItem implicitItemIdentifier="5983ABF0-89C6-4A80-A1A3-E9955AD64C0D" label="About" paletteLabel="About" tag="-1" image="NSFollowLinkFreestandingTemplate" id="Zmk-AM-sMt">
                         <connections>
-                            <action selector="openAbout:" target="-2" id="qbx-jE-aWJ"/>
+                            <action selector="openAbout:" target="-2" id="ucd-s9-ykN"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="3BFB0C60-B9D3-4253-A618-6E1A7C5DA914" label="Preferences" paletteLabel="Preferences" tag="-1" image="NSFollowLinkFreestandingTemplate" id="s7c-lS-Xl6">
+                        <connections>
+                            <action selector="showPreferencesPanel:" target="-2" id="84t-NJ-PJu"/>
                         </connections>
                     </toolbarItem>
                 </allowedToolbarItems>
@@ -122,6 +127,7 @@
                     <toolbarItem reference="bpk-vh-Cwi"/>
                     <toolbarItem reference="Hlr-zW-dBx"/>
                     <toolbarItem reference="s7c-lS-Xl6"/>
+                    <toolbarItem reference="Zmk-AM-sMt"/>
                 </defaultToolbarItems>
             </toolbar>
             <connections>
