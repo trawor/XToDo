@@ -11,6 +11,7 @@
 
 #import "XToDoPreferencesWindowController.h"
 
+#import "NSData+Split.h"
 
 static NSBundle *pluginBundle;
 
@@ -118,12 +119,15 @@ static NSBundle *pluginBundle;
     NSData *data;
     data = [file readDataToEndOfFile];
     
-    NSString *string;
-    string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    
+    NSArray *dataArray = [data componentsSeparatedByByte:'\n'];
+    NSMutableArray *results = [NSMutableArray arrayWithCapacity:[dataArray count]];
+    for (NSData *dataItem in dataArray) {
+        NSString *string = [[NSString alloc] initWithData:dataItem encoding:NSUTF8StringEncoding];
+        if (string != nil){
+            [results addObject:string];
+        }
+    }
     //NSLog(@"Path:%@\nOUTPUT:%@",projectPath,string);
-    
-    NSArray *results=[string componentsSeparatedByString:@"\n"];
     
     NSMutableArray *arr=[NSMutableArray array];
     for (NSString *line in results) {
