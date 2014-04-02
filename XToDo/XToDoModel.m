@@ -194,7 +194,7 @@ static NSBundle *pluginBundle;
     
     [textView scrollRangeToVisible:range];
     
-    [textView showFindIndicatorForRange:range];
+    [textView setSelectedRange:range];
     
 }
 
