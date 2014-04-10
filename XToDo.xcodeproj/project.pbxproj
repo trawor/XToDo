@@ -34,8 +34,15 @@
 		6EB64F0A18947A5D00EA6B86 /* XToDoPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EFEA8AE1894757200FD9595 /* XToDoPreferencesWindowController.xib */; };
 		6EFEA8AF1894757200FD9595 /* XToDoPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFEA8AD1894757200FD9595 /* XToDoPreferencesWindowController.m */; };
 		6EFEA8B01894757200FD9595 /* XToDoPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EFEA8AE1894757200FD9595 /* XToDoPreferencesWindowController.xib */; };
+		C338F4DE18F4FBAF00EDE66E /* PathEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C338F4DD18F4FBAF00EDE66E /* PathEditViewController.m */; };
+		C338F4DF18F4FBAF00EDE66E /* PathEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C338F4DD18F4FBAF00EDE66E /* PathEditViewController.m */; };
+		C338F4E118F4FD8700EDE66E /* PathEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C338F4E018F4FD8700EDE66E /* PathEditViewController.xib */; };
+		C338F4E218F4FD8700EDE66E /* PathEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C338F4E018F4FD8700EDE66E /* PathEditViewController.xib */; };
+		C3417AF118F6A871003297B8 /* XToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F67ED491846E54F00E9E6AD /* XToDo.m */; };
 		C36063A118EBDCE000F500EA /* NSData+Split.m in Sources */ = {isa = PBXBuildFile; fileRef = C36063A018EBDCE000F500EA /* NSData+Split.m */; };
 		C36063A218EBDCE000F500EA /* NSData+Split.m in Sources */ = {isa = PBXBuildFile; fileRef = C36063A018EBDCE000F500EA /* NSData+Split.m */; };
+		C3F460FF18F43BE10009D503 /* ProjectSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F460FE18F43BE10009D503 /* ProjectSetting.m */; };
+		C3F4610018F43BE10009D503 /* ProjectSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F460FE18F43BE10009D503 /* ProjectSetting.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,8 +80,13 @@
 		6EFEA8AC1894757200FD9595 /* XToDoPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XToDoPreferencesWindowController.h; sourceTree = "<group>"; };
 		6EFEA8AD1894757200FD9595 /* XToDoPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XToDoPreferencesWindowController.m; sourceTree = "<group>"; };
 		6EFEA8AE1894757200FD9595 /* XToDoPreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XToDoPreferencesWindowController.xib; sourceTree = "<group>"; };
+		C338F4DC18F4FBAF00EDE66E /* PathEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathEditViewController.h; sourceTree = "<group>"; };
+		C338F4DD18F4FBAF00EDE66E /* PathEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathEditViewController.m; sourceTree = "<group>"; };
+		C338F4E018F4FD8700EDE66E /* PathEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathEditViewController.xib; sourceTree = "<group>"; };
 		C360639F18EBDCE000F500EA /* NSData+Split.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Split.h"; sourceTree = "<group>"; };
 		C36063A018EBDCE000F500EA /* NSData+Split.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Split.m"; sourceTree = "<group>"; };
+		C3F460FD18F43BE10009D503 /* ProjectSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSetting.h; sourceTree = "<group>"; };
+		C3F460FE18F43BE10009D503 /* ProjectSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSetting.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +151,11 @@
 				1FF31A131846EABD00976E29 /* XToDoModel.m */,
 				1F67ED481846E54F00E9E6AD /* XToDo.h */,
 				1F67ED491846E54F00E9E6AD /* XToDo.m */,
+				C3F460FD18F43BE10009D503 /* ProjectSetting.h */,
+				C3F460FE18F43BE10009D503 /* ProjectSetting.m */,
+				C338F4DC18F4FBAF00EDE66E /* PathEditViewController.h */,
+				C338F4DD18F4FBAF00EDE66E /* PathEditViewController.m */,
+				C338F4E018F4FD8700EDE66E /* PathEditViewController.xib */,
 				1FFB0F1F1851BDB200E97FA1 /* XToDoWindowController.h */,
 				1FFB0F201851BDB200E97FA1 /* XToDoWindowController.m */,
 				1FFB0F211851BDB200E97FA1 /* XToDoWindowController.xib */,
@@ -272,6 +289,7 @@
 				1F997742185227F500485D3F /* checkmark_off.tiff in Resources */,
 				1FFB0F231851BDB200E97FA1 /* XToDoWindowController.xib in Resources */,
 				1F5B2E5118471B0A003529EC /* find.sh in Resources */,
+				C338F4E118F4FD8700EDE66E /* PathEditViewController.xib in Resources */,
 				6EFEA8B01894757200FD9595 /* XToDoPreferencesWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +304,7 @@
 				1FCB6EB31851D481002E6BC3 /* XToDoWindowController.xib in Resources */,
 				6EB64F0A18947A5D00EA6B86 /* XToDoPreferencesWindowController.xib in Resources */,
 				1FCB6E921851D45B002E6BC3 /* Credits.rtf in Resources */,
+				C338F4E218F4FD8700EDE66E /* PathEditViewController.xib in Resources */,
 				1FCB6EB51851D758002E6BC3 /* find.sh in Resources */,
 				1F997745185227F500485D3F /* checkmark_on.tiff in Resources */,
 			);
@@ -300,8 +319,10 @@
 			files = (
 				C36063A118EBDCE000F500EA /* NSData+Split.m in Sources */,
 				1F67ED4A1846E54F00E9E6AD /* XToDo.m in Sources */,
+				C338F4DE18F4FBAF00EDE66E /* PathEditViewController.m in Sources */,
 				6EFEA8AF1894757200FD9595 /* XToDoPreferencesWindowController.m in Sources */,
 				1FFB0F221851BDB200E97FA1 /* XToDoWindowController.m in Sources */,
+				C3F460FF18F43BE10009D503 /* ProjectSetting.m in Sources */,
 				1FF31A141846EABD00976E29 /* XToDoModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,10 +331,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3417AF118F6A871003297B8 /* XToDo.m in Sources */,
 				6EB64F09189479D800EA6B86 /* XToDoPreferencesWindowController.m in Sources */,
+				C3F4610018F43BE10009D503 /* ProjectSetting.m in Sources */,
 				C36063A218EBDCE000F500EA /* NSData+Split.m in Sources */,
 				1FCB6EB21851D481002E6BC3 /* XToDoWindowController.m in Sources */,
 				1FCB6E951851D45B002E6BC3 /* XTAppDelegate.m in Sources */,
+				C338F4DF18F4FBAF00EDE66E /* PathEditViewController.m in Sources */,
 				1FCB6EB41851D487002E6BC3 /* XToDoModel.m in Sources */,
 				1FCB6E8E1851D45B002E6BC3 /* main.m in Sources */,
 			);

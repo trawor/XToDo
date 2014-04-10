@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-
+#import "ProjectSetting.h"
 
 @interface DVTChoice : NSObject
 - (id)initWithTitle:(id)arg1 toolTip:(id)arg2 image:(id)arg3 representedObject:(id)arg4;
@@ -156,8 +156,22 @@
 + (IDEWorkspaceTabController*)tabController;
 + (IDESourceCodeEditor*)currentEditor;
 
-+ (NSArray*)findItemsWithPath:(NSString*)projectPath;
++ (NSArray*)findItemsWithProjectSetting:(ProjectSetting *)projectSetting projectPath:(NSString *)ProjectPath;
 
 +(BOOL)openItem:(XToDoItem*)item;
 
++ (NSString *) addPathSlash:(NSString *)path;
++ (NSString *) rootPathMacro;
++ (NSArray *) explandRootPathMacros:(NSArray *)paths projectPath:(NSString *)projectPath;
++ (NSString *) explandRootPathMacro:(NSString *)path projectPath:(NSString *)projectPath;
++ (NSString *) settingFilePathByProjectName:(NSString *)projectName;
++ (ProjectSetting *) projectSettingByProjectName:(NSString *)projectName;
++ (void) saveProjectSetting:(ProjectSetting *)projectSetting ByProjectName:(NSString *)projectName;
 @end
+
+
+extern NSString* const kXToDoTextSizePrefsKey;
+extern NSString* const kXToDoTagsKey;
+extern NSString* const kXToDoSearchDir;
+
+extern NSString* const kNotifyProjectSettingChanged;
