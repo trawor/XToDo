@@ -76,6 +76,7 @@
 
 @interface XToDoWindowController ()<NSOutlineViewDataSource,NSOutlineViewDelegate>
 @property (weak) IBOutlet NSOutlineView *listView;
+@property (weak) IBOutlet NSProgressIndicator *workingIndicator;
 @property () NSArray* types;
 @property () XToDoPreferencesWindowController* prefsController;
 @property(nonatomic,copy) NSString *projectPath;
@@ -106,6 +107,8 @@
     self.listView.indentationMarkerFollowsCell=NO;
     self.listView.indentationPerLevel=10.0;
     self.listView.allowsMultipleSelection=NO;
+    
+    [self.workingIndicator setHidden:YES];
 
     self.window.level=NSFloatingWindowLevel;
     self.data=[NSMutableDictionary dictionaryWithCapacity:5];
@@ -196,16 +199,20 @@
         return;
     }
     
+    [self.workingIndicator setHidden:NO];
+    [self.workingIndicator startAnimation:nil];
     //TODO: show refresh stat
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray *items = [XToDoModel findItemsWithProjectSetting:[XToDoModel projectSettingByProjectName:self.projectName]
+        ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
+        NSArray *items = [XToDoModel findItemsWithProjectSetting:projectSetting
                                                      projectPath:self.projectPath];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.items=items;
+            [self.workingIndicator setHidden:YES];
+            [self.workingIndicator stopAnimation:nil];
         });
     });
 }
-
 - (IBAction)showPreferencesPanel:(id)sender
 {
     [self.prefsController loadWindow];
