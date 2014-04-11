@@ -13,8 +13,6 @@
 
 NSString* const kXToDoTextSizePrefsKey          = @"XToDo_TextSize";
 NSString* const kXToDoTagsKey                   = @"XToDo_Tags";
-NSString* const kXToDoSearchDir                 = @"XToDo_SearchDir"; // NSArray include NSStrings
-
 NSString* const kNotifyProjectSettingChanged    = @"XToDo_NotifyProjectSettingChanged"; 
 
 

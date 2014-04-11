@@ -173,6 +173,4 @@
 
 extern NSString* const kXToDoTextSizePrefsKey;
 extern NSString* const kXToDoTagsKey;
-extern NSString* const kXToDoSearchDir;
-
 extern NSString* const kNotifyProjectSettingChanged;

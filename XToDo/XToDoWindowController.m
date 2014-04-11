@@ -132,8 +132,6 @@
     
     [prefs removeObserver:self
                forKeyPath:kXToDoTextSizePrefsKey];
-    [prefs removeObserver:self
-               forKeyPath:kXToDoTagsKey];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -142,19 +140,13 @@
     if (object == [NSUserDefaults standardUserDefaults]) {
         if ([keyPath isEqualToString:kXToDoTextSizePrefsKey]) {
             [self.listView reloadData];
-        } else if ([keyPath isEqualToString:kXToDoTagsKey]) {
-            self.types = [change objectForKey:NSKeyValueChangeNewKey];
-            [self refresh:nil];
-        } else if ([keyPath isEqualToString:kXToDoSearchDir]) {
-            self.projectPath = [change objectForKey:NSKeyValueChangeNewKey];
-            [self refresh:nil];
         }
-        
     }
 }
 
 - (void) _onNotifyProjectSettingChanged:(NSNotification *)notification
 {
+    self.types = [[NSUserDefaults standardUserDefaults] objectForKey:kXToDoTagsKey];
     [self refresh:nil];
 }
 
@@ -201,7 +193,7 @@
     
     [self.workingIndicator setHidden:NO];
     [self.workingIndicator startAnimation:nil];
-    //TODO: show refresh stat
+
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
         NSArray *items = [XToDoModel findItemsWithProjectSetting:projectSetting
