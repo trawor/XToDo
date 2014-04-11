@@ -9,14 +9,13 @@
 #import <Cocoa/Cocoa.h>
 
 
-extern NSString* const kXToDoTextSizePrefsKey;
-extern NSString* const kXToDoTagsKey;
 
 typedef NS_ENUM(NSInteger, XToDoTextSize) {
     kXToDoTextSizeLarge         = 0,
     kXToDoTextSizeSmall         = 1
 };
 
-@interface XToDoPreferencesWindowController : NSWindowController
-
+@interface XToDoPreferencesWindowController : NSWindowController<NSPopoverDelegate>
+@property (copy) NSString *searchRootDir;
+@property (copy) NSString *projectName;
 @end

@@ -9,6 +9,7 @@
 #import "XToDoWindowController.h"
 #import "XToDoModel.h"
 #import "XToDo.h"
+#import "ProjectSetting.h"
 
 #import "XToDoPreferencesWindowController.h"
 
@@ -75,9 +76,11 @@
 
 @interface XToDoWindowController ()<NSOutlineViewDataSource,NSOutlineViewDelegate>
 @property (weak) IBOutlet NSOutlineView *listView;
+@property (weak) IBOutlet NSProgressIndicator *workingIndicator;
 @property () NSArray* types;
 @property () XToDoPreferencesWindowController* prefsController;
-
+@property(nonatomic,copy) NSString *projectPath;
+@property(nonatomic,copy) NSString *projectName;
 
 @property(nonatomic,retain)NSMutableDictionary *data;
 
@@ -104,6 +107,8 @@
     self.listView.indentationMarkerFollowsCell=NO;
     self.listView.indentationPerLevel=10.0;
     self.listView.allowsMultipleSelection=NO;
+    
+    [self.workingIndicator setHidden:YES];
 
     self.window.level=NSFloatingWindowLevel;
     self.data=[NSMutableDictionary dictionaryWithCapacity:5];
@@ -115,10 +120,10 @@
                options:NSKeyValueObservingOptionNew
                context:NULL];
     
-    [prefs addObserver:self
-            forKeyPath:kXToDoTagsKey
-               options:NSKeyValueObservingOptionNew
-               context:NULL];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(_onNotifyProjectSettingChanged:)
+                                                 name:kNotifyProjectSettingChanged
+                                               object:nil];
 }
 
 - (void)dealloc
@@ -127,8 +132,7 @@
     
     [prefs removeObserver:self
                forKeyPath:kXToDoTextSizePrefsKey];
-    [prefs removeObserver:self
-               forKeyPath:kXToDoTagsKey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
@@ -136,11 +140,14 @@
     if (object == [NSUserDefaults standardUserDefaults]) {
         if ([keyPath isEqualToString:kXToDoTextSizePrefsKey]) {
             [self.listView reloadData];
-        } else if ([keyPath isEqualToString:kXToDoTagsKey]) {
-            self.types = [change objectForKey:NSKeyValueChangeNewKey];
-            [self refresh:nil];
         }
     }
+}
+
+- (void) _onNotifyProjectSettingChanged:(NSNotification *)notification
+{
+    self.types = [[NSUserDefaults standardUserDefaults] objectForKey:kXToDoTagsKey];
+    [self refresh:nil];
 }
 
 -(void)setItems:(NSArray *)items{
@@ -167,7 +174,7 @@
     [panel beginSheetModalForWindow:[self window] completionHandler: (^(NSInteger result){
         if(result == NSOKButton) {
             NSArray *fileURLs = [panel URLs];
-            self.projectPath=[[fileURLs objectAtIndex:0] path];
+            [self setSearchRootDir:[[fileURLs objectAtIndex:0] path] projectName:@"Test.xcodeproj"];
             [self refresh:sender];
             
         }
@@ -184,12 +191,20 @@
         return;
     }
     
-    //TODO: show refresh stat
-    
-    NSArray *items=[XToDoModel findItemsWithPath:self.projectPath];
-    self.items=items;
-}
+    [self.workingIndicator setHidden:NO];
+    [self.workingIndicator startAnimation:nil];
 
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
+        NSArray *items = [XToDoModel findItemsWithProjectSetting:projectSetting
+                                                     projectPath:self.projectPath];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.items=items;
+            [self.workingIndicator setHidden:YES];
+            [self.workingIndicator stopAnimation:nil];
+        });
+    });
+}
 - (IBAction)showPreferencesPanel:(id)sender
 {
     [self.prefsController loadWindow];
@@ -202,6 +217,16 @@
                                     display:NO];
     
     [self.prefsController showWindow:sender];
+}
+
+- (void) setSearchRootDir:(NSString *)searchRootDir projectName:(NSString *)projectName
+{
+    //ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:projectName];
+    
+    self.projectPath = searchRootDir;
+    self.projectName = projectName;
+    self.prefsController.projectName = projectName;
+    self.prefsController.searchRootDir = searchRootDir;
 }
 
 -(CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item{

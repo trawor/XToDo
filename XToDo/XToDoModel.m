@@ -99,25 +99,145 @@ static NSBundle *pluginBundle;
     return [escapedStrings componentsJoinedByString:@"|"];
 }
 
-+ (NSArray*)findItemsWithPath:(NSString*)projectPath{
+typedef void(^OnFindedItem)(NSString *fullPath, BOOL isDirectory,  BOOL *skipThis, BOOL *stopAll);
++ (void) scanFolder:(NSString*)folder findedItemBlock:(OnFindedItem)findedItemBlock
+{
+    BOOL stopAll = NO;
+    
+    NSFileManager* localFileManager = [[NSFileManager alloc] init];
+    NSDirectoryEnumerationOptions option = NSDirectoryEnumerationSkipsHiddenFiles | NSDirectoryEnumerationSkipsPackageDescendants;
+    NSDirectoryEnumerator* directoryEnumerator = [localFileManager enumeratorAtURL:[NSURL fileURLWithPath:folder]
+                                                        includingPropertiesForKeys:nil
+                                                                           options:option
+                                                                      errorHandler:nil];
+    for (NSURL* theURL in directoryEnumerator)
+    {
+        if (stopAll)
+        {
+            break;
+        }
+        
+        NSString *fileName = nil;
+        [theURL getResourceValue:&fileName forKey:NSURLNameKey error:NULL];
+        
+        NSNumber *isDirectory = nil;
+        [theURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+        
+        BOOL skinThis = NO;
+        
+        BOOL directory = [isDirectory boolValue];
+        
+        findedItemBlock([theURL path], directory, &skinThis, &stopAll);
+        
+        if (skinThis)
+        {
+            [directoryEnumerator skipDescendents];
+        }
+    }
+}
+
+
++ (NSArray *)removeSubDirs:(NSArray*)dirs
+{
+    // TODO:
+    return dirs;
+}
+
++ (NSSet *)lowercaseFileTypes:(NSSet *)fileTypes
+{
+    NSMutableSet *set = [NSMutableSet setWithCapacity:[fileTypes count]];
+    for (NSString * fileType in fileTypes)
+    {
+        [set addObject:[fileType lowercaseString]];
+    }
+    return set;
+}
+
++ (NSArray*)findFileNameWithProjectPath:(NSString *)projectPath
+                            includeDirs:(NSArray *)includeDirs
+                            excludeDirs:(NSArray *)excludeDirs
+                              fileTypes:(NSSet *)fileTypes
+{
+    includeDirs = [XToDoModel explandRootPathMacros:includeDirs projectPath:projectPath];
+    includeDirs = [XToDoModel removeSubDirs:includeDirs];
+    excludeDirs = [XToDoModel explandRootPathMacros:excludeDirs projectPath:projectPath];
+    excludeDirs = [XToDoModel removeSubDirs:excludeDirs];
+    fileTypes   = [XToDoModel lowercaseFileTypes:fileTypes];
+    NSMutableArray *allFilePaths = [NSMutableArray arrayWithCapacity:1000];
+    for (NSString *includeDir in includeDirs)
+    {
+        [XToDoModel scanFolder:includeDir findedItemBlock:^(NSString *fullPath, BOOL isDirectory, BOOL *skipThis, BOOL *stopAll) {
+            if (isDirectory)
+            {
+                for (NSString *excludeDir in excludeDirs)
+                {
+                    if ([fullPath hasPrefix:excludeDir])
+                    {
+                        *skipThis = YES;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                if ([fileTypes containsObject:[[fullPath pathExtension] lowercaseString]])
+                {
+                    [allFilePaths addObject:fullPath];
+                }
+            }
+            
+        }];
+    }
+    return allFilePaths;
+}
+
+/**
+ *  find all XToDoItem by specified paths
+ *  @param projectPath for expland @(SRC_ROOT)
+ *  @param includeDirs one or more path that contains source files
+ *  @param excludeDirs dirs that SHOULD NOT search for
+ *  @param fileTypes [NSSet setWithObject:@"mm", @"m", ...]
+ *
+ *  @return array contains XToDoItem
+ */
++ (NSArray*)findItemsWithProjectPath:(NSString *)projectPath
+                         includeDirs:(NSArray *)includeDirs
+                         excludeDirs:(NSArray *)excludeDirs
+                           fileTypes:(NSSet *)fileTypes
+                        tempFilePath:(NSString *)tempFilePath
+{
+    // find all files match dirs and extnames
+    NSArray *filePaths = [XToDoModel findFileNameWithProjectPath:projectPath
+                                                     includeDirs:includeDirs
+                                                     excludeDirs:excludeDirs
+                                                       fileTypes:fileTypes];
+    
+    // xargs -0 need "\0" as separtor
+    NSData *dataAllFilePaths = [[filePaths componentsJoinedByString:@"\0"] dataUsingEncoding:NSUTF8StringEncoding];
+
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:@"/bin/bash"];
-    
     NSString *shellPath=[[NSBundle bundleForClass:[self class]] pathForResource:@"find" ofType:@"sh"];
+    [task setArguments:@[shellPath, [self scannedStrings]]];
     
-    [task setArguments:@[shellPath,projectPath, [self scannedStrings]]];
-
-    NSPipe *pipe;
-    pipe = [NSPipe pipe];
-    [task setStandardOutput: pipe];
-
-    NSFileHandle *file;
-    file = [pipe fileHandleForReading];
+    if ([dataAllFilePaths writeToFile:tempFilePath atomically:NO] == NO)
+    {
+        return nil;
+    }
+    NSFileHandle *inputFileHandle = [NSFileHandle fileHandleForReadingAtPath:tempFilePath];
+    if (inputFileHandle == nil)
+    {
+        return nil;
+    }
     
+    [task setStandardInput:inputFileHandle];
+    [task setStandardOutput:[NSPipe pipe]];
+    NSFileHandle *readHandle    = [[task standardOutput] fileHandleForReading];
     [task launch];
     
-    NSData *data;
-    data = [file readDataToEndOfFile];
+    
+    NSData *data = [readHandle readDataToEndOfFile];
+    [inputFileHandle closeFile];
     
     NSArray *dataArray = [data componentsSeparatedByByte:'\n'];
     NSMutableArray *results = [NSMutableArray arrayWithCapacity:[dataArray count]];
@@ -140,6 +260,31 @@ static NSBundle *pluginBundle;
         }
     }
     return arr;
+}
+
++ (NSArray*)findItemsWithProjectSetting:(ProjectSetting *)projectSetting projectPath:(NSString *)projectPath{
+    NSArray *includeDirs = [projectSetting includeDirs];
+    if ([includeDirs count] == 0)
+    {
+        return 0;
+    }
+    
+    NSArray *items = nil;
+    NSString *tempFilePath = [[XToDoModel _tempFileDirectory] stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
+    @try {
+        items = [XToDoModel findItemsWithProjectPath:projectPath
+                                         includeDirs:[projectSetting includeDirs]
+                                         excludeDirs:[projectSetting excludeDirs]
+                                           fileTypes:[NSSet setWithObjects:@"H", @"hpp", @"M", @"Mm", @"c", @"cpp", @"cc", nil]
+                                        tempFilePath:tempFilePath];
+        
+    }
+    @catch (NSException *exception) {
+    }
+    @finally {
+        [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:nil];     // HAVE TO delete temp file.
+    }
+    return items;
 }
 
 
@@ -242,4 +387,144 @@ static NSBundle *pluginBundle;
     
     return result;
 }
+
++ (NSString *) _settingDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    // TODO [path count] == 0
+    NSString *settingDirectory = [(NSString *)[paths objectAtIndex:0] stringByAppendingPathComponent:@"XToDo"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:settingDirectory] == NO)
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:settingDirectory
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:NULL];
+    }
+    return settingDirectory;
+}
+
++ (NSString *) _tempFileDirectory
+{
+    NSString *tempFileDirectory = [[XToDoModel _settingDirectory] stringByAppendingPathComponent:@"Temp"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:tempFileDirectory] == NO)
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:tempFileDirectory
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:NULL];
+    }
+    return tempFileDirectory;
+}
+
++ (void) cleanAllTempFiles
+{
+    [XToDoModel scanFolder:[XToDoModel _tempFileDirectory] findedItemBlock:^(NSString *fullPath, BOOL isDirectory, BOOL *skipThis, BOOL *stopAll) {
+        [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+    }];
+}
+
++ (NSString *) rootPathMacro
+{
+    return [XToDoModel addPathSlash:@"$(SRCROOT)"];
+}
+
++ (NSArray *) explandRootPathMacros:(NSArray *)paths projectPath:(NSString *)projectPath
+{
+    if (projectPath == nil)
+    {
+        return paths;
+    }
+    
+    NSMutableArray *explandPaths = [NSMutableArray arrayWithCapacity:[paths count]];
+    for (NSString *path in paths) {
+        [explandPaths addObject:[XToDoModel explandRootPathMacro:path projectPath:projectPath]];
+    }
+    return explandPaths;
+}
+
++ (NSString *) addPathSlash:(NSString *)path
+{
+    if ([path length] > 0)
+    {
+        if ([path characterAtIndex:([path length] - 1)] != '/')
+        {
+            path = [NSString stringWithFormat:@"%@/", path];
+        }
+    }
+    return path;
+}
+
++ (NSString *) explandRootPathMacro:(NSString *)path projectPath:(NSString *)projectPath
+{
+    projectPath = [XToDoModel addPathSlash:projectPath];
+    path = [path stringByReplacingOccurrencesOfString:[XToDoModel rootPathMacro] withString:projectPath];
+    
+    return [XToDoModel addPathSlash:path];
+}
+
++ (NSString *) settingFilePathByProjectName:(NSString *)projectName
+{
+    NSString *settingDirectory = [XToDoModel _settingDirectory];
+    NSString *fileName = [projectName length] ? projectName : @"Test.xcodeproj";
+    return [settingDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist",fileName]];
+}
+
+
+
++ (ProjectSetting *) projectSettingByProjectName:(NSString *)projectName
+{
+    static NSMutableDictionary *projectName2ProjectSetting = nil;
+    if (projectName2ProjectSetting == nil)
+    {
+        projectName2ProjectSetting = [[NSMutableDictionary alloc] init];
+    }
+    
+    if (projectName != nil)
+    {
+        id object = [projectName2ProjectSetting objectForKey:projectName];
+        if ([object isKindOfClass:[ProjectSetting class]])
+        {
+            return object;
+        }
+    }
+    
+    NSString *fullPath = [XToDoModel settingFilePathByProjectName:projectName];
+    ProjectSetting *projectSetting = nil;
+    @try {
+        projectSetting = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+    }
+    @catch (NSException *exception) {
+    }
+    if ([projectSetting isKindOfClass:[projectSetting class]] == NO){
+        projectSetting = nil;
+    }
+    
+    if (projectSetting == nil) {
+        projectSetting = [ProjectSetting defaultProjectSetting];
+    }
+    if ((projectSetting != nil) && (projectName != nil))
+    {
+        [projectName2ProjectSetting setObject:projectSetting forKey:projectName];
+    }
+    return projectSetting;
+}
+
++ (void) saveProjectSetting:(ProjectSetting *)projectSetting ByProjectName:(NSString *)projectName
+{
+    if (projectSetting == nil)
+    {
+        return;
+    }
+    @try {
+        NSString *filePath = [XToDoModel settingFilePathByProjectName:projectName];
+        [NSKeyedArchiver archiveRootObject:projectSetting
+                                    toFile:filePath];
+        filePath = nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"saveProjectSetting:exception:%@", exception);
+    }
+    NSLog(@"haha");
+}
+
 @end

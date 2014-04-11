@@ -10,11 +10,10 @@
 #import "XToDoModel.h"
 #import "XToDoWindowController.h"
 
-static XToDo* sharedPlugin=nil;
+XToDo* sharedPlugin=nil;
 
 @interface XToDo()
 @property (nonatomic, strong) XToDoWindowController *windowController;
-@property (nonatomic, strong) NSBundle *bundle;
 @end
 
 @implementation XToDo
@@ -128,17 +127,26 @@ static XToDo* sharedPlugin=nil;
         if (self.windowController==nil) {
             XToDoWindowController *wc=[[XToDoWindowController alloc] initWithWindowNibName:@"XToDoWindowController"];
             self.windowController=wc;
-            self.windowController.window.title= [[XToDoModel currentWorkspaceDocument].displayName stringByDeletingLastPathComponent];
         }
         
-        NSString *projectPath= [[[XToDoModel currentWorkspaceDocument].workspace.representingFilePath.fileURL
-                                 path]
-                                stringByDeletingLastPathComponent];
+        NSString *filePath = [[XToDoModel currentWorkspaceDocument].workspace.representingFilePath.fileURL path];
+        NSString *projectDir= [filePath stringByDeletingLastPathComponent];
+        NSString *projectName = [filePath lastPathComponent];
+        {
+            // register them as soon as possible
+            NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+            [prefs registerDefaults:@{
+                                      kXToDoTextSizePrefsKey : @(0),
+                                      kXToDoTagsKey : @[@"TODO", @"FIXME", @"???", @"!!!"],
+                                      }];
+
+        }
+        [XToDoModel cleanAllTempFiles];
         
+        self.windowController.window.title= [[XToDoModel currentWorkspaceDocument].displayName stringByDeletingLastPathComponent];
         //!!!: how about the path is nil?
-        self.windowController.projectPath=projectPath;
+        [self.windowController setSearchRootDir:projectDir projectName:projectName];
         [self.windowController.window makeKeyAndOrderFront:nil];
-        
         [self.windowController refresh:nil];
     }
     
