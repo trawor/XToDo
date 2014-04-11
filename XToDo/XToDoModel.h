@@ -160,6 +160,7 @@
 
 +(BOOL)openItem:(XToDoItem*)item;
 
++ (void) cleanAllTempFiles;
 + (NSString *) addPathSlash:(NSString *)path;
 + (NSString *) rootPathMacro;
 + (NSArray *) explandRootPathMacros:(NSArray *)paths projectPath:(NSString *)projectPath;

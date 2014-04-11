@@ -141,6 +141,7 @@ XToDo* sharedPlugin=nil;
                                       }];
 
         }
+        [XToDoModel cleanAllTempFiles];
         
         self.windowController.window.title= [[XToDoModel currentWorkspaceDocument].displayName stringByDeletingLastPathComponent];
         //!!!: how about the path is nil?

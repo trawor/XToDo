@@ -270,7 +270,7 @@ typedef void(^OnFindedItem)(NSString *fullPath, BOOL isDirectory,  BOOL *skipThi
     }
     
     NSArray *items = nil;
-    NSString *tempFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
+    NSString *tempFilePath = [[XToDoModel _tempFileDirectory] stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
     @try {
         items = [XToDoModel findItemsWithProjectPath:projectPath
                                          includeDirs:[projectSetting includeDirs]
@@ -388,6 +388,41 @@ typedef void(^OnFindedItem)(NSString *fullPath, BOOL isDirectory,  BOOL *skipThi
     return result;
 }
 
++ (NSString *) _settingDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    // TODO [path count] == 0
+    NSString *settingDirectory = [(NSString *)[paths objectAtIndex:0] stringByAppendingPathComponent:@"XToDo"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:settingDirectory] == NO)
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:settingDirectory
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:NULL];
+    }
+    return settingDirectory;
+}
+
++ (NSString *) _tempFileDirectory
+{
+    NSString *tempFileDirectory = [[XToDoModel _settingDirectory] stringByAppendingPathComponent:@"Temp"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:tempFileDirectory] == NO)
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:tempFileDirectory
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:NULL];
+    }
+    return tempFileDirectory;
+}
+
++ (void) cleanAllTempFiles
+{
+    [XToDoModel scanFolder:[XToDoModel _tempFileDirectory] findedItemBlock:^(NSString *fullPath, BOOL isDirectory, BOOL *skipThis, BOOL *stopAll) {
+        [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+    }];
+}
+
 + (NSString *) rootPathMacro
 {
     return [XToDoModel addPathSlash:@"$(SRCROOT)"];
@@ -429,16 +464,7 @@ typedef void(^OnFindedItem)(NSString *fullPath, BOOL isDirectory,  BOOL *skipThi
 
 + (NSString *) settingFilePathByProjectName:(NSString *)projectName
 {
-    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *settingDirectory = [(NSString *)[paths objectAtIndex:0] stringByAppendingPathComponent:@"XToDo"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:settingDirectory] == NO)
-    {
-        [[NSFileManager defaultManager] createDirectoryAtPath:settingDirectory
-                                  withIntermediateDirectories:YES
-                                                   attributes:nil
-                                                        error:NULL];
-    }
-    
+    NSString *settingDirectory = [XToDoModel _settingDirectory];
     NSString *fileName = [projectName length] ? projectName : @"Test.xcodeproj";
     return [settingDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist",fileName]];
 }
@@ -475,7 +501,6 @@ typedef void(^OnFindedItem)(NSString *fullPath, BOOL isDirectory,  BOOL *skipThi
     
     if (projectSetting == nil) {
         projectSetting = [ProjectSetting defaultProjectSetting];
-        projectSetting.projectName = projectName;
     }
     if ((projectSetting != nil) && (projectName != nil))
     {

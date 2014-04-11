@@ -11,7 +11,6 @@
 @interface ProjectSetting : NSObject<NSCoding>
 @property NSArray  *includeDirs;
 @property NSArray  *excludeDirs;
-@property NSString *projectName;
 + (ProjectSetting *) defaultProjectSetting;
 - (NSString *) firstIncludeDir;
 @end
