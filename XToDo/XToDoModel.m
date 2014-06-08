@@ -247,7 +247,6 @@ typedef void(^OnFindedItem)(NSString *fullPath, BOOL isDirectory,  BOOL *skipThi
             [results addObject:string];
         }
     }
-    //NSLog(@"Path:%@\nOUTPUT:%@",projectPath,string);
     
     NSMutableArray *arr=[NSMutableArray array];
     for (NSString *line in results) {
@@ -275,7 +274,7 @@ typedef void(^OnFindedItem)(NSString *fullPath, BOOL isDirectory,  BOOL *skipThi
         items = [XToDoModel findItemsWithProjectPath:projectPath
                                          includeDirs:[projectSetting includeDirs]
                                          excludeDirs:[projectSetting excludeDirs]
-                                           fileTypes:[NSSet setWithObjects:@"H", @"hpp", @"M", @"Mm", @"c", @"cpp", @"cc", nil]
+                                           fileTypes:[NSSet setWithObjects:@"H", @"hpp", @"M", @"Mm", @"c", @"cpp", @"cc", @"swift", nil]
                                         tempFilePath:tempFilePath];
         
     }
