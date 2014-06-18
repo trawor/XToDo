@@ -16,5 +16,7 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+.LSOverride
+
 # Pods - for those of you who use CocoaPods
 Pods
