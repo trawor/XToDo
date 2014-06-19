@@ -234,10 +234,11 @@
         return 35.0;
     }
     return 25;
+  
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(XToDoItem*)item {
-    NSLog(@"Display %@",[item description]);
+    //NSLog(@"Display %@",[item description]);
 }
 
 
@@ -262,8 +263,8 @@
 
         cellView.titleField.stringValue = item.content;
         cellView.fileField.stringValue = [item.filePath lastPathComponent];
-        
-        //TODO: update 'complate' stat image
+
+        //TODO: update 'complete' stat image
         return cellView;
     }
 }

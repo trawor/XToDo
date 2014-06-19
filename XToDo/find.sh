@@ -8,5 +8,5 @@
 
 KEYWORDS="$1"
 
-xargs -0 egrep --with-filename --line-number --only-matching "//\ {0,2}($KEYWORDS).*\$" | perl -p -e "s/($KEYWORDS)/:\$1/"
-
+# New matching strategy handles colon noise more gracefully, supports keywords in multi-line comments, supports mid-line keywords, and generally leaves less clean-up work for Obj-C
+xargs -0 egrep --with-filename --line-number --only-matching "^.*?[^\"]($KEYWORDS).*?\$" | perl -p -e "s/^\s*(.+?):(.+?):.*($KEYWORDS)[: \t]*(.*?)[: \t]*$/\$1:\$2:\$3:\$4/gm"

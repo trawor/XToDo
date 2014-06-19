@@ -143,11 +143,11 @@
 
 
 @interface XToDoItem : NSObject
-@property(nonatomic,copy) NSString *filePath;
-@property(nonatomic,assign)NSUInteger lineNumber;
-@property(nonatomic,assign)int type;
-@property(nonatomic,copy)NSString *typeString;
-@property(nonatomic,copy)NSString *content;
+@property (nonatomic,copy) NSString *filePath;
+@property (nonatomic,assign) NSUInteger lineNumber;
+@property (nonatomic,assign) int type;
+@property (nonatomic,copy) NSString *typeString;
+@property (nonatomic,copy) NSString *content;
 @end
 
 @interface XToDoModel : NSObject
