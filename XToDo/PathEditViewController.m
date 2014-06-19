@@ -11,49 +11,46 @@
 #import "XToDo.h"
 extern XToDo* sharedPlugin;
 
-@interface PathEditViewController()
-@property IBOutlet NSTableView *tableView;
+@interface PathEditViewController ()
+@property IBOutlet NSTableView* tableView;
 - (IBAction)onTouchUpInsideDelete:(id)sender;
 - (IBAction)onTouchUpInsideInsert:(id)sender;
 @end
 
 @implementation PathEditViewController
-#pragma mark -
-#pragma mark override
-- (id) initWithArray:(NSArray *)array
+
+#pragma mark - override
+- (id)initWithArray:(NSArray*)array
 {
-    PathEditViewController *pathEditViewController = [self initWithNibName:@"PathEditViewController"
+    PathEditViewController* pathEditViewController = [self initWithNibName:@"PathEditViewController"
                                                                     bundle:sharedPlugin.bundle];
     self.array = [[NSMutableArray alloc] initWithArray:array copyItems:YES];
     return pathEditViewController;
 }
 
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
     [self.tableView setGridStyleMask:NSTableViewSolidHorizontalGridLineMask];
     [self.tableView setHeaderView:nil];
     self.tableView.dataSource = self;
     [self.tableView reloadData];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editingDidEnd:)
                                                  name:NSControlTextDidEndEditingNotification
                                                object:nil];
-    
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark -
-#pragma mark Private
+#pragma mark - Private
 - (IBAction)onTouchUpInsideDelete:(id)sender
 {
     NSInteger selectedRow = [self.tableView selectedRow];
-    if (selectedRow == -1)
-    {
+    if (selectedRow == -1) {
         return;
     }
     [self.tableView beginUpdates];
@@ -61,14 +58,12 @@ extern XToDo* sharedPlugin;
     [self.tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:selectedRow]
                           withAnimation:NSTableViewAnimationEffectNone];
     [self.tableView endUpdates];
-    
-    if ([self.array count] > 0)
-    {
-        if (selectedRow >= [self.array count])
-        {
+
+    if ([self.array count] > 0) {
+        if (selectedRow >= [self.array count]) {
             selectedRow = [self.array count] - 1;
         }
-        NSIndexSet * selSet = [NSIndexSet indexSetWithIndex:selectedRow];
+        NSIndexSet* selSet = [NSIndexSet indexSetWithIndex:selectedRow];
         [self.tableView selectRowIndexes:selSet byExtendingSelection:NO];
     }
 }
@@ -80,43 +75,37 @@ extern XToDo* sharedPlugin;
     [self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.tableView.numberOfRows]
                           withAnimation:NSTableViewAnimationEffectNone];
     [self.tableView endUpdates];
-    [self.tableView editColumn:0 row:self.tableView.numberOfRows-1 withEvent:nil select:YES];
+    [self.tableView editColumn:0 row:self.tableView.numberOfRows - 1 withEvent:nil select:YES];
 }
 
-#pragma mark - 
-#pragma mark NSTableView
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+#pragma mark - NSTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView*)tableView
 {
     return [self.array count];
 }
 
-
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView*)aTableView objectValueForTableColumn:(NSTableColumn*)aTableColumn row:(NSInteger)rowIndex
 {
     return [self.array objectAtIndex:rowIndex];
 }
 
-#pragma mark -
-#pragma mark Notify
-- (void)editingDidEnd:(NSNotification *)notification
+#pragma mark - Notify
+- (void)editingDidEnd:(NSNotification*)notification
 {
-    if ([notification object] != self.tableView)
-    {
+    if ([notification object] != self.tableView) {
         return;
     }
-    
+
     NSInteger row = [self.tableView editedRow];
-    if ((row < 0) || (row >= [self.array count]))
-    {
+    if ((row < 0) || (row >= [self.array count])) {
         return;
     }
-    
-    NSTextView *textView = [[notification userInfo] objectForKey:@"NSFieldEditor"];
-    if ([textView isKindOfClass:[NSTextView class]] == NO)
-    {
+
+    NSTextView* textView = [[notification userInfo] objectForKey:@"NSFieldEditor"];
+    if ([textView isKindOfClass:[NSTextView class]] == NO) {
         return;
     }
-    
+
     [self.array replaceObjectAtIndex:row withObject:[[textView string] copy]];
     [self.tableView reloadData];
 }

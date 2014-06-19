@@ -11,36 +11,34 @@
 
 @implementation ProjectSetting
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder*)aCoder
 {
-    [aCoder encodeObject:self.includeDirs ? self.includeDirs : @[]  forKey:@"includeDirs"];
-    [aCoder encodeObject:self.excludeDirs ? self.excludeDirs : @[]  forKey:@"excludeDirs"];
+    [aCoder encodeObject:self.includeDirs ? self.includeDirs : @[] forKey:@"includeDirs"];
+    [aCoder encodeObject:self.excludeDirs ? self.excludeDirs : @[] forKey:@"excludeDirs"];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder*)aDecoder
 {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         self.includeDirs = [aDecoder decodeObjectForKey:@"includeDirs"];
         self.excludeDirs = [aDecoder decodeObjectForKey:@"excludeDirs"];
     }
     return self;
 }
 
-+ (ProjectSetting *) defaultProjectSetting
++ (ProjectSetting*)defaultProjectSetting
 {
-    ProjectSetting *projectSetting = [[ProjectSetting alloc] init];
-    projectSetting.includeDirs = @[[XToDoModel rootPathMacro]];
-    projectSetting.excludeDirs = @[[XToDoModel addPathSlash:[[XToDoModel rootPathMacro] stringByAppendingPathComponent:@"Pods"]]];
+    ProjectSetting* projectSetting = [[ProjectSetting alloc] init];
+    projectSetting.includeDirs = @[ [XToDoModel rootPathMacro] ];
+    projectSetting.excludeDirs = @[ [XToDoModel addPathSlash:[[XToDoModel rootPathMacro] stringByAppendingPathComponent:@"Pods"]] ];
     return projectSetting;
 }
 
-- (NSString *)firstIncludeDir
+- (NSString*)firstIncludeDir
 {
-    NSString *firstDir = [self.includeDirs count] ? [self.includeDirs objectAtIndex:0] : @"";
-    if ([firstDir length] == 0)
-    {
+    NSString* firstDir = [self.includeDirs count] ? [self.includeDirs objectAtIndex:0] : @"";
+    if ([firstDir length] == 0) {
         firstDir = [XToDoModel rootPathMacro];
     }
     return firstDir;

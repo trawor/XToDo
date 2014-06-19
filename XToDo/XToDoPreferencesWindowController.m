@@ -10,14 +10,11 @@
 #import "XToDoModel.h"
 #import "PathEditViewController.h"
 
+NSString* const kXToDoTextSizePrefsKey = @"XToDo_TextSize";
+NSString* const kXToDoTagsKey = @"XToDo_Tags";
+NSString* const kNotifyProjectSettingChanged = @"XToDo_NotifyProjectSettingChanged";
 
-NSString* const kXToDoTextSizePrefsKey          = @"XToDo_TextSize";
-NSString* const kXToDoTagsKey                   = @"XToDo_Tags";
-NSString* const kNotifyProjectSettingChanged    = @"XToDo_NotifyProjectSettingChanged"; 
-
-
-static NSString* kXToDoItemDraggingType         = @"drag_XToDoItems";
-
+static NSString* kXToDoItemDraggingType = @"drag_XToDoItems";
 
 @interface XToDoTagName : NSObject <NSCopying>
 @property () NSString* tagName;
@@ -29,15 +26,15 @@ static NSString* kXToDoItemDraggingType         = @"drag_XToDoItems";
     if (nil != (self = [super init])) {
         self.tagName = @"New Tag";
     }
-    
+
     return self;
 }
 
-- (instancetype)copyWithZone:(NSZone *)zone
+- (instancetype)copyWithZone:(NSZone*)zone
 {
     XToDoTagName* aCopy = [[XToDoTagName alloc] init];
     aCopy.tagName = self.tagName;
-    
+
     return aCopy;
 }
 
@@ -57,7 +54,7 @@ static NSString* kXToDoItemDraggingType         = @"drag_XToDoItems";
 
 @implementation XToDoPreferencesWindowController
 
-- (id)initWithWindow:(NSWindow *)window
+- (id)initWithWindow:(NSWindow*)window
 {
     if (nil != (self = [super initWithWindow:window])) {
         NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
@@ -66,12 +63,12 @@ static NSString* kXToDoItemDraggingType         = @"drag_XToDoItems";
         for (NSString* aTag in tags) {
             XToDoTagName* aTagName = [[XToDoTagName alloc] init];
             aTagName.tagName = aTag;
-            
+
             [tagNames addObject:aTagName];
         }
         self.tagNames = tagNames;
     }
-    
+
     return self;
 }
 
@@ -82,55 +79,55 @@ static NSString* kXToDoItemDraggingType         = @"drag_XToDoItems";
 
 - (void)awakeFromNib
 {
-    [self.tagsView registerForDraggedTypes:@[kXToDoItemDraggingType]];
+    [self.tagsView registerForDraggedTypes:@[ kXToDoItemDraggingType ]];
 }
 
-- (void) loadWindow
+- (void)loadWindow
 {
     [super loadWindow];
     [self _updateDirsUI];
 }
 
-- (void)windowWillClose:(NSNotification *)notification {
+- (void)windowWillClose:(NSNotification*)notification
+{
     if ([notification object] == self.window) {
         NSMutableArray* updatedTags = [NSMutableArray arrayWithCapacity:[self.tagNames count]];
-                                       
+
         [self.tagNames enumerateObjectsUsingBlock:^(id anObj, NSUInteger anIdx, BOOL* stop) {
             [updatedTags insertObject:[anObj tagName]
                               atIndex:anIdx];
         }];
-        
+
         [[NSUserDefaults standardUserDefaults] setObject:updatedTags
                                                   forKey:kXToDoTagsKey];
-        
-        ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
+
+        ProjectSetting* projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
         [XToDoModel saveProjectSetting:projectSetting ByProjectName:self.projectName];
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotifyProjectSettingChanged object:nil];
     }
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet*)rowIndexes toPasteboard:(NSPasteboard*)pboard
+- (BOOL)tableView:(NSTableView*)aTableView writeRowsWithIndexes:(NSIndexSet*)rowIndexes toPasteboard:(NSPasteboard*)pboard
 {
     BOOL success = NO;
-    
+
     if ([rowIndexes count] > 0) {
-        [pboard declareTypes:@[kXToDoItemDraggingType] owner:self];
+        [pboard declareTypes:@[ kXToDoItemDraggingType ] owner:self];
         [pboard setData:[NSKeyedArchiver archivedDataWithRootObject:rowIndexes]
                 forType:kXToDoItemDraggingType];
-        
+
         success = YES;
     }
-    
+
     return success;
 }
 
-- (NSDragOperation)tableView:(NSTableView*)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
+- (NSDragOperation)tableView:(NSTableView*)aTableView validateDrop:(id<NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
-    return (NSTableViewDropOn != operation && nil != [[info draggingPasteboard] availableTypeFromArray:@[kXToDoItemDraggingType]]) ?
-        NSDragOperationMove : NSDragOperationNone;
+    return (NSTableViewDropOn != operation && nil != [[info draggingPasteboard] availableTypeFromArray:@[ kXToDoItemDraggingType ]]) ? NSDragOperationMove : NSDragOperationNone;
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
+- (BOOL)tableView:(NSTableView*)aTableView acceptDrop:(id<NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
 {
     BOOL success = NO;
     NSPasteboard* pboard = [info draggingPasteboard];
@@ -145,22 +142,21 @@ static NSString* kXToDoItemDraggingType         = @"drag_XToDoItems";
             [self.tagsController removeObjectAtArrangedObjectIndex:anIdx];
             [self.tagsController insertObject:anItem atArrangedObjectIndex:(anIdx < row) ? row-1 : row];
         }];
-        
+
         success = YES;
     }
-    
+
     return success;
 }
 
-#pragma mark -
-#pragma mark Private
+#pragma mark - Private
 - (IBAction)onTouchUpInsideEditInclude:(id)sender
 {
-    ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
-    NSPopover *popover = [[NSPopover alloc] init];
+    ProjectSetting* projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
+    NSPopover* popover = [[NSPopover alloc] init];
     popover.delegate = self;
     popover.behavior = NSPopoverBehaviorTransient;
-    PathEditViewController *viewController = [[PathEditViewController alloc] initWithArray:projectSetting.includeDirs];
+    PathEditViewController* viewController = [[PathEditViewController alloc] initWithArray:projectSetting.includeDirs];
     [popover setContentViewController:viewController];
     viewController.pathEditType = PathEditTypeInclude;
     [popover showRelativeToRect:CGRectMake(0, 0, 400, 400) ofView:sender preferredEdge:NSMinXEdge];
@@ -168,56 +164,51 @@ static NSString* kXToDoItemDraggingType         = @"drag_XToDoItems";
 
 - (IBAction)onTouchUpInsideEditExclude:(id)sender
 {
-    ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
-    NSPopover *popover = [[NSPopover alloc] init];
+    ProjectSetting* projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
+    NSPopover* popover = [[NSPopover alloc] init];
     popover.delegate = self;
     popover.behavior = NSPopoverBehaviorTransient;
-    PathEditViewController *viewController = [[PathEditViewController alloc] initWithArray:projectSetting.excludeDirs];
+    PathEditViewController* viewController = [[PathEditViewController alloc] initWithArray:projectSetting.excludeDirs];
     [popover setContentViewController:viewController];
     viewController.pathEditType = PathEditTypeExclude;
     [popover showRelativeToRect:CGRectMake(0, 0, 400, 400) ofView:sender preferredEdge:NSMinXEdge];
 }
 
-- (void) _updateDirsUI
+- (void)_updateDirsUI
 {
-    ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
-    
-    NSArray *readableIncludePaths = [XToDoModel explandRootPathMacros:[projectSetting includeDirs]
+    ProjectSetting* projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
+
+    NSArray* readableIncludePaths = [XToDoModel explandRootPathMacros:[projectSetting includeDirs]
                                                           projectPath:self.searchRootDir];
     self.searchDirTextField.stringValue = [readableIncludePaths componentsJoinedByString:@"    "];
     [self.searchDirTextField setSelectable:YES];
     [self.searchDirTextField setEditable:NO];
     [self.searchDirTextField resignFirstResponder];
-    
-    NSArray *readableExcludePaths = [XToDoModel explandRootPathMacros:[projectSetting excludeDirs]
+
+    NSArray* readableExcludePaths = [XToDoModel explandRootPathMacros:[projectSetting excludeDirs]
                                                           projectPath:self.searchRootDir];
     self.excludeDirTextField.stringValue = [readableExcludePaths componentsJoinedByString:@"    "];
     [self.excludeDirTextField setSelectable:YES];
     [self.excludeDirTextField setEditable:NO];
     [self.excludeDirTextField resignFirstResponder];
 }
-#pragma mark -
-#pragma mark NSPopoverDelegate
-- (void) popoverDidClose:(NSNotification *)notification
+
+#pragma mark - NSPopoverDelegate
+- (void)popoverDidClose:(NSNotification*)notification
 {
-    NSPopover *popOver = [notification object];
-    if ([popOver isKindOfClass:[NSPopover class]] == NO)
-    {
+    NSPopover* popOver = [notification object];
+    if ([popOver isKindOfClass:[NSPopover class]] == NO) {
         return;
     }
-    
-    PathEditViewController *pathEditViewController = (PathEditViewController *)[popOver contentViewController];
-    if ([pathEditViewController isKindOfClass:[PathEditViewController class]] == NO)
-    {
+
+    PathEditViewController* pathEditViewController = (PathEditViewController*)[popOver contentViewController];
+    if ([pathEditViewController isKindOfClass:[PathEditViewController class]] == NO) {
         return;
     }
-    ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
-    if (pathEditViewController.pathEditType == PathEditTypeInclude)
-    {
+    ProjectSetting* projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
+    if (pathEditViewController.pathEditType == PathEditTypeInclude) {
         projectSetting.includeDirs = [pathEditViewController array];
-    }
-    else if (pathEditViewController.pathEditType == PathEditTypeExclude)
-    {
+    } else if (pathEditViewController.pathEditType == PathEditTypeExclude) {
         projectSetting.excludeDirs = [pathEditViewController array];
     }
     [self _updateDirsUI];

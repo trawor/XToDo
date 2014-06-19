@@ -6,7 +6,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 /// An NSData category that allows splitting the data into separate components.
 
 @interface NSData (Split)
@@ -18,6 +17,6 @@
  @param sep Byte to separate by.
  @return NSArray of components
  */
--(NSArray *)componentsSeparatedByByte:(Byte)sep;
+- (NSArray*)componentsSeparatedByByte:(Byte)sep;
 
 @end

@@ -8,14 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-
 typedef NS_ENUM(NSInteger, XToDoTextSize) {
-    kXToDoTextSizeLarge         = 0,
-    kXToDoTextSizeSmall         = 1
+    kXToDoTextSizeLarge = 0,
+    kXToDoTextSizeSmall = 1
 };
 
-@interface XToDoPreferencesWindowController : NSWindowController<NSPopoverDelegate>
-@property (copy) NSString *searchRootDir;
-@property (copy) NSString *projectName;
+@interface XToDoPreferencesWindowController : NSWindowController <NSPopoverDelegate>
+@property (copy) NSString* searchRootDir;
+@property (copy) NSString* projectName;
 @end

@@ -9,5 +9,5 @@
 #import <AppKit/AppKit.h>
 
 @interface XToDo : NSObject
-@property (nonatomic, strong) NSBundle *bundle;
+@property (nonatomic, strong) NSBundle* bundle;
 @end

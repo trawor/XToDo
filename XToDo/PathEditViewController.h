@@ -12,8 +12,8 @@ typedef NS_ENUM(NSInteger, PathEditType) {
     PathEditTypeExclude,
 };
 
-@interface PathEditViewController : NSViewController<NSTableViewDataSource>
-- (id) initWithArray:(NSArray *)array;
-@property NSMutableArray *array;
+@interface PathEditViewController : NSViewController <NSTableViewDataSource>
+- (id)initWithArray:(NSArray*)array;
+@property NSMutableArray* array;
 @property (assign) PathEditType pathEditType;
 @end

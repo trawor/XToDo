@@ -9,15 +9,15 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ToDoCellView : NSTableCellView
-@property(nonatomic,strong)NSTextField *titleField;
-@property(nonatomic,strong)NSTextField *fileField;
+@property (nonatomic, strong) NSTextField* titleField;
+@property (nonatomic, strong) NSTextField* fileField;
 @end
 
 @interface XToDoWindowController : NSWindowController
 
-@property(nonatomic,retain) NSArray *items;
+@property (nonatomic, retain) NSArray* items;
 
-- (void) setSearchRootDir:(NSString *)searchRootDir projectName:(NSString *)projectName;
+- (void)setSearchRootDir:(NSString*)searchRootDir projectName:(NSString*)projectName;
 
 - (IBAction)refresh:(id)sender;
 @end

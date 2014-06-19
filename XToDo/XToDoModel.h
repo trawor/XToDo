@@ -14,7 +14,6 @@
 - (id)initWithTitle:(id)arg1 toolTip:(id)arg2 image:(id)arg3 representedObject:(id)arg4;
 @end
 
-
 @interface DVTTextDocumentLocation : NSObject
 @property (readonly) NSRange characterRange;
 @property (readonly) NSRange lineRange;
@@ -28,23 +27,23 @@
 @end
 
 @interface DVTSourceTextStorage : NSTextStorage
-- (void)replaceCharactersInRange:(NSRange)range withString:(NSString *)string withUndoManager:(id)undoManager;
+- (void)replaceCharactersInRange:(NSRange)range withString:(NSString*)string withUndoManager:(id)undoManager;
 - (NSRange)lineRangeForCharacterRange:(NSRange)range;
 - (NSRange)characterRangeForLineRange:(NSRange)range;
 - (void)indentCharacterRange:(NSRange)range undoManager:(id)undoManager;
 @end
 
 @interface DVTFileDataType : NSObject
-@property (readonly) NSString *identifier;
+@property (readonly) NSString* identifier;
 @end
 
 @interface DVTFilePath : NSObject
-@property (readonly) NSURL *fileURL;
-@property (readonly) DVTFileDataType *fileDataTypePresumed;
+@property (readonly) NSURL* fileURL;
+@property (readonly) DVTFileDataType* fileDataTypePresumed;
 @end
 
 @interface IDEContainerItem : NSObject
-@property (readonly) DVTFilePath *resolvedFilePath;
+@property (readonly) DVTFilePath* resolvedFilePath;
 @end
 
 @interface IDEGroup : IDEContainerItem
@@ -56,56 +55,55 @@
 @end
 
 @interface IDENavigableItem : NSObject
-@property (readonly) IDENavigableItem *parentItem;
+@property (readonly) IDENavigableItem* parentItem;
 @property (readonly) id representedObject;
-
 
 @end
 
 @interface IDEFileNavigableItem : IDENavigableItem
-@property (readonly) DVTFileDataType *documentType;
-@property (readonly) NSURL *fileURL;
+@property (readonly) DVTFileDataType* documentType;
+@property (readonly) NSURL* fileURL;
 @end
 
 @interface IDEStructureNavigator : NSObject
-@property (retain) NSArray *selectedObjects;
+@property (retain) NSArray* selectedObjects;
 @end
 
 @interface IDENavigableItemCoordinator : NSObject
-- (id)structureNavigableItemForDocumentURL:(id)arg1 inWorkspace:(id)arg2 error:(id *)arg3;
+- (id)structureNavigableItemForDocumentURL:(id)arg1 inWorkspace:(id)arg2 error:(id*)arg3;
 @end
 
 @interface IDENavigatorArea : NSObject
-@property NSArrayController *extensionsController;
+@property NSArrayController* extensionsController;
 - (id)currentNavigator;
 @end
 
 @interface IDEWorkspaceTabController : NSObject
-@property (readonly) IDENavigatorArea *navigatorArea;
-@property(readonly) IDEWorkspaceTabController *structureEditWorkspaceTabController;
+@property (readonly) IDENavigatorArea* navigatorArea;
+@property (readonly) IDEWorkspaceTabController* structureEditWorkspaceTabController;
 @end
 
 @interface IDEDocumentController : NSDocumentController
-+(IDEDocumentController*)sharedDocumentController;
++ (IDEDocumentController*)sharedDocumentController;
 + (id)editorDocumentForNavigableItem:(id)arg1;
-+ (id)retainedEditorDocumentForNavigableItem:(id)arg1 error:(id *)arg2;
++ (id)retainedEditorDocumentForNavigableItem:(id)arg1 error:(id*)arg2;
 + (void)releaseEditorDocument:(id)arg1;
 
 @end
 
 @interface IDESourceCodeDocument : NSDocument
-- (DVTSourceTextStorage *)textStorage;
-- (NSUndoManager *)undoManager;
+- (DVTSourceTextStorage*)textStorage;
+- (NSUndoManager*)undoManager;
 @end
 
 @interface IDESourceCodeComparisonEditor : NSObject
-@property (readonly) NSTextView *keyTextView;
-@property (retain) NSDocument *primaryDocument;
+@property (readonly) NSTextView* keyTextView;
+@property (retain) NSDocument* primaryDocument;
 @end
 
 @interface IDESourceCodeEditor : NSObject
-@property (retain) NSTextView *textView;
-- (IDESourceCodeDocument *)sourceCodeDocument;
+@property (retain) NSTextView* textView;
+- (IDESourceCodeDocument*)sourceCodeDocument;
 @end
 
 @interface IDEEditorContext : NSObject
@@ -113,63 +111,53 @@
 @end
 
 @interface IDEEditorArea : NSObject
-- (IDEEditorContext *)lastActiveEditorContext;
+- (IDEEditorContext*)lastActiveEditorContext;
 @end
 
 @interface IDEConsoleArea : NSObject
-- (IDEEditorContext *)lastActiveEditorContext;
+- (IDEEditorContext*)lastActiveEditorContext;
 @end
 
 @interface IDEWorkspaceWindowController : NSObject
-@property (readonly) IDEWorkspaceTabController *activeWorkspaceTabController;
-- (IDEEditorArea *)editorArea;
+@property (readonly) IDEWorkspaceTabController* activeWorkspaceTabController;
+- (IDEEditorArea*)editorArea;
 @end
 
 @interface IDEWorkspace : NSWorkspace
-@property (readonly) DVTFilePath *representingFilePath;
+@property (readonly) DVTFilePath* representingFilePath;
 @end
 
 @interface IDEWorkspaceDocument : NSDocument
-@property (readonly) IDEWorkspace *workspace;
+@property (readonly) IDEWorkspace* workspace;
 @end
 
-
-
-
-
-
-
-
-
-
 @interface XToDoItem : NSObject
-@property(nonatomic,copy) NSString *filePath;
-@property(nonatomic,assign)NSUInteger lineNumber;
-@property(nonatomic,assign)int type;
-@property(nonatomic,copy)NSString *typeString;
-@property(nonatomic,copy)NSString *content;
+@property (nonatomic, copy) NSString* filePath;
+@property (nonatomic, assign) NSUInteger lineNumber;
+@property (nonatomic, assign) int type;
+@property (nonatomic, copy) NSString* typeString;
+@property (nonatomic, copy) NSString* content;
 @end
 
 @interface XToDoModel : NSObject
 
-+ (IDEWorkspaceDocument *)currentWorkspaceDocument;
++ (IDEWorkspaceDocument*)currentWorkspaceDocument;
 + (IDEWorkspaceTabController*)tabController;
 + (IDESourceCodeEditor*)currentEditor;
 
-+ (NSArray*)findItemsWithProjectSetting:(ProjectSetting *)projectSetting projectPath:(NSString *)ProjectPath;
++ (NSArray*)findItemsWithProjectSetting:(ProjectSetting*)projectSetting projectPath:(NSString*)ProjectPath;
 
-+(BOOL)openItem:(XToDoItem*)item;
++ (BOOL)openItem:(XToDoItem*)item;
 
-+ (void) cleanAllTempFiles;
-+ (NSString *) addPathSlash:(NSString *)path;
-+ (NSString *) rootPathMacro;
-+ (NSArray *) explandRootPathMacros:(NSArray *)paths projectPath:(NSString *)projectPath;
-+ (NSString *) explandRootPathMacro:(NSString *)path projectPath:(NSString *)projectPath;
-+ (NSString *) settingFilePathByProjectName:(NSString *)projectName;
-+ (ProjectSetting *) projectSettingByProjectName:(NSString *)projectName;
-+ (void) saveProjectSetting:(ProjectSetting *)projectSetting ByProjectName:(NSString *)projectName;
++ (void)cleanAllTempFiles;
++ (NSString*)addPathSlash:(NSString*)path;
++ (NSString*)rootPathMacro;
++ (NSArray*)explandRootPathMacros:(NSArray*)paths projectPath:(NSString*)projectPath;
++ (NSString*)explandRootPathMacro:(NSString*)path projectPath:(NSString*)projectPath;
++ (NSString*)settingFilePathByProjectName:(NSString*)projectName;
++ (ProjectSetting*)projectSettingByProjectName:(NSString*)projectName;
++ (void)saveProjectSetting:(ProjectSetting*)projectSetting ByProjectName:(NSString*)projectName;
 @end
-
 
 extern NSString* const kXToDoTextSizePrefsKey;
 extern NSString* const kXToDoTagsKey;
