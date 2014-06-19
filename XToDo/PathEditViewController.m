@@ -18,8 +18,8 @@ extern XToDo* sharedPlugin;
 @end
 
 @implementation PathEditViewController
-#pragma mark -
-#pragma mark override
+
+#pragma mark - override
 - (id)initWithArray:(NSArray*)array
 {
     PathEditViewController* pathEditViewController = [self initWithNibName:@"PathEditViewController"
@@ -46,8 +46,7 @@ extern XToDo* sharedPlugin;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark -
-#pragma mark Private
+#pragma mark - Private
 - (IBAction)onTouchUpInsideDelete:(id)sender
 {
     NSInteger selectedRow = [self.tableView selectedRow];
@@ -79,8 +78,7 @@ extern XToDo* sharedPlugin;
     [self.tableView editColumn:0 row:self.tableView.numberOfRows - 1 withEvent:nil select:YES];
 }
 
-#pragma mark -
-#pragma mark NSTableView
+#pragma mark - NSTableView
 - (NSInteger)numberOfRowsInTableView:(NSTableView*)tableView
 {
     return [self.array count];
@@ -91,8 +89,7 @@ extern XToDo* sharedPlugin;
     return [self.array objectAtIndex:rowIndex];
 }
 
-#pragma mark -
-#pragma mark Notify
+#pragma mark - Notify
 - (void)editingDidEnd:(NSNotification*)notification
 {
     if ([notification object] != self.tableView) {

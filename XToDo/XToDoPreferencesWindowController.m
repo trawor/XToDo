@@ -149,8 +149,7 @@ static NSString* kXToDoItemDraggingType = @"drag_XToDoItems";
     return success;
 }
 
-#pragma mark -
-#pragma mark Private
+#pragma mark - Private
 - (IBAction)onTouchUpInsideEditInclude:(id)sender
 {
     ProjectSetting* projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
@@ -193,8 +192,8 @@ static NSString* kXToDoItemDraggingType = @"drag_XToDoItems";
     [self.excludeDirTextField setEditable:NO];
     [self.excludeDirTextField resignFirstResponder];
 }
-#pragma mark -
-#pragma mark NSPopoverDelegate
+
+#pragma mark - NSPopoverDelegate
 - (void)popoverDidClose:(NSNotification*)notification
 {
     NSPopover* popOver = [notification object];

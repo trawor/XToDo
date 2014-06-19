@@ -108,8 +108,7 @@ XToDo* sharedPlugin = nil;
     return [XToDoModel currentWorkspaceDocument].workspace != nil;
 }
 
-#pragma mark ment actions
-#pragma mark -
+#pragma mark - ment actions
 - (void)toggleList
 {
     //toggle the todo list window
