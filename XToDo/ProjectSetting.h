@@ -8,9 +8,9 @@
 
 #import <AppKit/AppKit.h>
 
-@interface ProjectSetting : NSObject<NSCoding>
-@property NSArray  *includeDirs;
-@property NSArray  *excludeDirs;
-+ (ProjectSetting *) defaultProjectSetting;
-- (NSString *) firstIncludeDir;
+@interface ProjectSetting : NSObject <NSCoding>
+@property NSArray* includeDirs;
+@property NSArray* excludeDirs;
++ (ProjectSetting*)defaultProjectSetting;
+- (NSString*)firstIncludeDir;
 @end
