@@ -110,6 +110,7 @@
     [self.workingIndicator setHidden:YES];
 
     self.window.level = NSFloatingWindowLevel;
+	self.window.hidesOnDeactivate = YES;
     self.data = [NSMutableDictionary dictionaryWithCapacity:5];
 
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
