@@ -392,7 +392,8 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
             isKindOfClass:NSClassFromString(@"IDEWorkspaceWindowController")]) {
 
         // NSLog(@"Open in current Xocde");
-        if ([[NSApp delegate] application:NSApp openFile:item.filePath]) {
+        id<NSApplicationDelegate> appDelegate = (id<NSApplicationDelegate>)[NSApp delegate];
+        if ([appDelegate application:NSApp openFile:item.filePath]) {
 
             IDESourceCodeEditor* editor = [XToDoModel currentEditor];
             if ([editor isKindOfClass:NSClassFromString(@"IDESourceCodeEditor")]) {
