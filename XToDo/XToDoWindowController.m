@@ -17,10 +17,20 @@
 
 @implementation ToDoCellView
 
+static NSImage *statusImageFixed;
+static NSImage *statusImageTodo;
+
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+		if (!statusImageFixed) {
+			statusImageFixed = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForImageResource:@"checkmark_on"]];
+		}
+		if (!statusImageTodo) {
+			statusImageTodo = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForImageResource:@"checkmark_off"]];
+		}
+		
         XToDoTextSize textSize = [[NSUserDefaults standardUserDefaults] integerForKey:kXToDoTextSizePrefsKey];
         NSUInteger fontSize = 14, smallFontsize = 11;
 
@@ -37,36 +47,40 @@
             break;
         }
 
-        NSImageView* iv = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 10, 16, 16)];
-        iv.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForImageResource:@"checkmark_off"]];
-        [self addSubview:iv];
+        self.fixedImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 10, 16, 16)];
+		self.fixedImageView.image = statusImageTodo;
+        [self addSubview:self.fixedImageView];
 
-        NSTextField* titleField = [[NSTextField alloc] initWithFrame:NSMakeRect(20, 15, frame.size.width - 20, 20 - (14 - fontSize))];
-        titleField.font = [NSFont systemFontOfSize:fontSize];
-        [titleField setAutoresizingMask:NSViewWidthSizable];
-        [[titleField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
-        [self addSubview:titleField];
-        self.titleField = titleField;
+        self.titleField = [[NSTextField alloc] initWithFrame:NSMakeRect(20, 15, frame.size.width - 20, 20 - (14 - fontSize))];
+        self.titleField.font = [NSFont systemFontOfSize:fontSize];
+        [self.titleField setAutoresizingMask:NSViewWidthSizable];
+        [[self.titleField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
+        [self addSubview:self.titleField];
+        self.titleField = self.titleField;
 
-        NSTextField* fileField = [[NSTextField alloc] initWithFrame:NSMakeRect(20, 0, frame.size.width - 20, 15 + (11 - smallFontsize))];
-        fileField.font = [NSFont systemFontOfSize:smallFontsize];
-        fileField.textColor = [NSColor darkGrayColor];
-        [fileField setAutoresizingMask:NSViewWidthSizable];
-        [[fileField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
-        [self addSubview:fileField];
-        self.fileField = fileField;
+        self.fileField = [[NSTextField alloc] initWithFrame:NSMakeRect(20, 0, frame.size.width - 20, 15 + (11 - smallFontsize))];
+        self.fileField.font = [NSFont systemFontOfSize:smallFontsize];
+        self.fileField.textColor = [NSColor darkGrayColor];
+        [self.fileField setAutoresizingMask:NSViewWidthSizable];
+        [[self.fileField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
+        [self addSubview:self.fileField];
+        self.fileField = self.fileField;
 
-        [titleField setBezeled:NO];
-        [titleField setDrawsBackground:NO];
-        [titleField setEditable:NO];
-        [titleField setSelectable:NO];
+        [self.titleField setBezeled:NO];
+        [self.titleField setDrawsBackground:NO];
+        [self.titleField setEditable:NO];
+        [self.titleField setSelectable:NO];
 
-        [fileField setBezeled:NO];
-        [fileField setDrawsBackground:NO];
-        [fileField setEditable:NO];
-        [fileField setSelectable:NO];
+        [self.fileField setBezeled:NO];
+        [self.fileField setDrawsBackground:NO];
+        [self.fileField setEditable:NO];
+        [self.fileField setSelectable:NO];
     }
     return self;
+}
+
+- (void)setFixed:(BOOL)fixed {
+	self.fixedImageView.image = fixed ? statusImageFixed : statusImageTodo;
 }
 
 @end
@@ -265,8 +279,10 @@
 
         cellView.titleField.stringValue = item.content;
         cellView.fileField.stringValue = [item.filePath lastPathComponent];
+		
+		[cellView setFixed:item.fixed];
 
-        //TODO: update 'complete' stat image
+        // TODO!: update 'complete' stat image
         return cellView;
     }
 }
