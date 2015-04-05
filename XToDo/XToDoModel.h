@@ -145,7 +145,7 @@
 + (IDEWorkspaceTabController*)tabController;
 + (IDESourceCodeEditor*)currentEditor;
 
-+ (NSArray*)findItemsWithProjectSetting:(ProjectSetting*)projectSetting projectPath:(NSString*)ProjectPath;
++ (NSArray*)findItemsWithProjectSetting:(ProjectSetting*)projectSetting projectPath:(NSString*)ProjectPath containingContentString:(NSString *)filterString;
 
 + (BOOL)openItem:(XToDoItem*)item;
 

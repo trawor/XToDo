@@ -34,6 +34,8 @@
 		6EB64F0A18947A5D00EA6B86 /* XToDoPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EFEA8AE1894757200FD9595 /* XToDoPreferencesWindowController.xib */; };
 		6EFEA8AF1894757200FD9595 /* XToDoPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFEA8AD1894757200FD9595 /* XToDoPreferencesWindowController.m */; };
 		6EFEA8B01894757200FD9595 /* XToDoPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EFEA8AE1894757200FD9595 /* XToDoPreferencesWindowController.xib */; };
+		814ABA721AD1A602004CD467 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 816AE24E1AD1A44F003A8FCA /* NSString+Additions.m */; };
+		814ABA731AD1A603004CD467 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 816AE24E1AD1A44F003A8FCA /* NSString+Additions.m */; };
 		C338F4DE18F4FBAF00EDE66E /* PathEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C338F4DD18F4FBAF00EDE66E /* PathEditViewController.m */; };
 		C338F4DF18F4FBAF00EDE66E /* PathEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C338F4DD18F4FBAF00EDE66E /* PathEditViewController.m */; };
 		C338F4E118F4FD8700EDE66E /* PathEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C338F4E018F4FD8700EDE66E /* PathEditViewController.xib */; };
@@ -80,6 +82,8 @@
 		6EFEA8AC1894757200FD9595 /* XToDoPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XToDoPreferencesWindowController.h; sourceTree = "<group>"; };
 		6EFEA8AD1894757200FD9595 /* XToDoPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XToDoPreferencesWindowController.m; sourceTree = "<group>"; };
 		6EFEA8AE1894757200FD9595 /* XToDoPreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XToDoPreferencesWindowController.xib; sourceTree = "<group>"; };
+		816AE24D1AD1A44F003A8FCA /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
+		816AE24E1AD1A44F003A8FCA /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		C338F4DC18F4FBAF00EDE66E /* PathEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathEditViewController.h; sourceTree = "<group>"; };
 		C338F4DD18F4FBAF00EDE66E /* PathEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathEditViewController.m; sourceTree = "<group>"; };
 		C338F4E018F4FD8700EDE66E /* PathEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathEditViewController.xib; sourceTree = "<group>"; };
@@ -164,6 +168,8 @@
 				6EFEA8AE1894757200FD9595 /* XToDoPreferencesWindowController.xib */,
 				C360639F18EBDCE000F500EA /* NSData+Split.h */,
 				C36063A018EBDCE000F500EA /* NSData+Split.m */,
+				816AE24D1AD1A44F003A8FCA /* NSString+Additions.h */,
+				816AE24E1AD1A44F003A8FCA /* NSString+Additions.m */,
 			);
 			path = XToDo;
 			sourceTree = "<group>";
@@ -318,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C36063A118EBDCE000F500EA /* NSData+Split.m in Sources */,
+				814ABA731AD1A603004CD467 /* NSString+Additions.m in Sources */,
 				1F67ED4A1846E54F00E9E6AD /* XToDo.m in Sources */,
 				C338F4DE18F4FBAF00EDE66E /* PathEditViewController.m in Sources */,
 				6EFEA8AF1894757200FD9595 /* XToDoPreferencesWindowController.m in Sources */,
@@ -334,6 +341,7 @@
 				C3417AF118F6A871003297B8 /* XToDo.m in Sources */,
 				6EB64F09189479D800EA6B86 /* XToDoPreferencesWindowController.m in Sources */,
 				C3F4610018F43BE10009D503 /* ProjectSetting.m in Sources */,
+				814ABA721AD1A602004CD467 /* NSString+Additions.m in Sources */,
 				C36063A218EBDCE000F500EA /* NSData+Split.m in Sources */,
 				1FCB6EB21851D481002E6BC3 /* XToDoWindowController.m in Sources */,
 				1FCB6E951851D45B002E6BC3 /* XTAppDelegate.m in Sources */,

@@ -20,4 +20,11 @@
 - (void)setSearchRootDir:(NSString*)searchRootDir projectName:(NSString*)projectName;
 
 - (IBAction)refresh:(id)sender;
+
+
+#pragma mark - Result filtering
+
+@property (weak) IBOutlet NSSearchField *filterResultsSearchField;
+- (IBAction)filterResults:(id)sender;
+
 @end
