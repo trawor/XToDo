@@ -14,6 +14,10 @@ XToDo* sharedPlugin = nil;
 
 @interface XToDo ()
 @property (nonatomic, strong) XToDoWindowController* windowController;
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (void)addMenuItems;
+
 @end
 
 @implementation XToDo
@@ -35,72 +39,88 @@ XToDo* sharedPlugin = nil;
     self = [super init];
     if (self) {
         self.bundle = plugin;
-
-        //insert a menuItem to MainMenu "Window"
-        NSMenuItem* menuItem = [[NSApp mainMenu] itemWithTitle:@"View"];
-        if (menuItem) {
-            [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-
-            NSMenuItem* actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"ToDo List"
-                                                                    action:@selector(toggleList)
-                                                             keyEquivalent:@"t"];
-
-            [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
-
-            [actionMenuItem setTarget:self];
-            [[menuItem submenu] addItem:actionMenuItem];
-
-            //add Snippet Group
-            NSMenu* submenu = [[NSMenu alloc] init];
-
-            NSMenuItem* mainItem = [[NSMenuItem alloc] init];
-            [mainItem setTitle:@"Snippets"];
-
-            [mainItem setSubmenu:submenu];
-            [[menuItem submenu] addItem:mainItem];
-
-            //support snippets to add TODO
-            actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"TODO"
-                                                        action:@selector(insertToDo)
-                                                 keyEquivalent:@"t"];
-
-            [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask | NSShiftKeyMask];
-
-            [actionMenuItem setTarget:self];
-            [submenu addItem:actionMenuItem];
-
-            //support snippets to add FIXME
-            actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"FIXME"
-                                                        action:@selector(insertFixMe)
-                                                 keyEquivalent:@"x"];
-
-            [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask | NSShiftKeyMask];
-
-            [actionMenuItem setTarget:self];
-            [submenu addItem:actionMenuItem];
-
-            //support snippets to add !!!
-            actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"!!!"
-                                                        action:@selector(insertWarn)
-                                                 keyEquivalent:@"1"];
-
-            [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask | NSShiftKeyMask];
-
-            [actionMenuItem setTarget:self];
-            [submenu addItem:actionMenuItem];
-
-            //support snippets to add ???
-            actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"???"
-                                                        action:@selector(insertAsk)
-                                                 keyEquivalent:@"q"];
-
-            [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask | NSShiftKeyMask];
-
-            [actionMenuItem setTarget:self];
-            [submenu addItem:actionMenuItem];
-        }
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationDidFinishLaunching:)
+                                                     name:NSApplicationDidFinishLaunchingNotification
+                                                   object:nil];
     }
     return self;
+}
+
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    [self addMenuItems];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSApplicationDidFinishLaunchingNotification
+                                                  object:nil];
+}
+
+- (void)addMenuItems {
+    // insert a menuItem to MainMenu "Window"
+    NSMenuItem* menuItem = [[NSApp mainMenu] itemWithTitle:@"View"];
+    if (!menuItem) {
+        return;
+    }
+    
+    [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
+    
+    NSMenuItem* actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"ToDo List"
+                                                            action:@selector(toggleList)
+                                                     keyEquivalent:@"t"];
+    
+    [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
+    
+    [actionMenuItem setTarget:self];
+    [[menuItem submenu] addItem:actionMenuItem];
+    
+    //add Snippet Group
+    NSMenu* submenu = [[NSMenu alloc] init];
+    
+    NSMenuItem* mainItem = [[NSMenuItem alloc] init];
+    [mainItem setTitle:@"Snippets"];
+    
+    [mainItem setSubmenu:submenu];
+    [[menuItem submenu] addItem:mainItem];
+    
+    //support snippets to add TODO
+    actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"TODO"
+                                                action:@selector(insertToDo)
+                                         keyEquivalent:@"t"];
+    
+    [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask | NSShiftKeyMask];
+    
+    [actionMenuItem setTarget:self];
+    [submenu addItem:actionMenuItem];
+    
+    //support snippets to add FIXME
+    actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"FIXME"
+                                                action:@selector(insertFixMe)
+                                         keyEquivalent:@"x"];
+    
+    [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask | NSShiftKeyMask];
+    
+    [actionMenuItem setTarget:self];
+    [submenu addItem:actionMenuItem];
+    
+    //support snippets to add !!!
+    actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"!!!"
+                                                action:@selector(insertWarn)
+                                         keyEquivalent:@"1"];
+    
+    [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask | NSShiftKeyMask];
+    
+    [actionMenuItem setTarget:self];
+    [submenu addItem:actionMenuItem];
+    
+    //support snippets to add ???
+    actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"???"
+                                                action:@selector(insertAsk)
+                                         keyEquivalent:@"q"];
+    
+    [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask | NSShiftKeyMask];
+    
+    [actionMenuItem setTarget:self];
+    [submenu addItem:actionMenuItem];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem*)menuItem
