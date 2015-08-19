@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ToDoCellView : NSTableCellView
+@property (nonatomic, retain) NSImageView *fixedImageView;
 @property (nonatomic, strong) NSTextField* titleField;
 @property (nonatomic, strong) NSTextField* fileField;
 @end
