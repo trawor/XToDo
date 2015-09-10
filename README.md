@@ -1,4 +1,4 @@
-##XToDo -- Xcode plugin
+## XToDo -- Xcode plugin
 to collect and list the `TODO`,`FIXME`,`???`,`!!!`
 
 ![image](screenshots/1.png)
