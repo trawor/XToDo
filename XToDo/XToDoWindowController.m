@@ -278,7 +278,7 @@ static NSImage *statusImageTodo;
         }
 
         cellView.titleField.stringValue = item.content;
-        cellView.fileField.stringValue = [item.filePath lastPathComponent];
+        cellView.fileField.stringValue = [[item.filePath lastPathComponent] stringByAppendingFormat:@":%ld",item.lineNumber];
 		
 		[cellView setFixed:item.fixed];
 
