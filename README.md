@@ -1,12 +1,19 @@
 ## XToDo -- Xcode plugin
-to collect and list the `TODO`,`FIXME`,`???`,`!!!`
 
 ![image](screenshots/1.png)
 
 ![image](screenshots/2.png)
 
+### What Can XToDo do?
+
+- collect and list the `TODO`,`FIXME`,`???`,`!!!`
+- show stat for an item finished or not (still can not switch on/off)
+- filter results if you have too much todos
+- snippets make a todo comment easily
+- standalone App if you'd like not to wait for 10-sec Xcode starting
+
 ### Install
-clone this repo Build the project and it's done!
+clone this repo, Build the project and it's done!
 
 or you can download from [this link](https://www.dropbox.com/s/bgn4x4i9rt7s0uw/XToDo.xcplugin.zip) and move the plugin to path  
  `~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/`  
