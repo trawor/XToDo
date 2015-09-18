@@ -138,6 +138,8 @@ static NSImage *statusImageTodo;
                                              selector:@selector(_onNotifyProjectSettingChanged:)
                                                  name:kNotifyProjectSettingChanged
                                                object:nil];
+
+    [self.window makeFirstResponder:self.listView];
 }
 
 - (void)dealloc
@@ -210,10 +212,10 @@ static NSImage *statusImageTodo;
     [self.workingIndicator setHidden:NO];
     [self.workingIndicator startAnimation:nil];
 
+    __block NSString *filterString = self.filterResultsSearchField ? self.filterResultsSearchField.stringValue : @"";
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         ProjectSetting *projectSetting = [XToDoModel projectSettingByProjectName:self.projectName];
-        NSArray *items = [XToDoModel findItemsWithProjectSetting:projectSetting
-                                                     projectPath:self.projectPath];
+        NSArray *items = [XToDoModel findItemsWithProjectSetting:projectSetting projectPath:self.projectPath containingContentString:filterString];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.items=items;
             [self.workingIndicator setHidden:YES];
@@ -326,4 +328,14 @@ static NSImage *statusImageTodo;
     }
 }
 
+
+#pragma mark - Result filtering
+
+- (IBAction)filterResults:(id)sender
+{
+    if(sender == self.filterResultsSearchField)
+    {
+        [self refresh:nil];
+    }
+}
 @end

@@ -6,4 +6,7 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
+
+    // Import common class additions
+    #import "NSString+Additions.h"
 #endif

@@ -217,6 +217,7 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
                          excludeDirs:(NSArray*)excludeDirs
                            fileTypes:(NSSet*)fileTypes
                         tempFilePath:(NSString*)tempFilePath
+                        containingContentString:(NSString *)filterString
 {
     // find all files match dirs and extnames
     NSArray* filePaths = [XToDoModel findFileNameWithProjectPath:projectPath
@@ -267,10 +268,14 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
     NSMutableArray* arr = [NSMutableArray array];
     for (NSString* line in results) {
         if (line.length > 4) {
-            id anItem = [self itemFromLine:line];
+            XToDoItem *anItem = [self itemFromLine:line];
 
             if (nil != anItem) {
-                [arr addObject:anItem];
+                // Filter out items that do not contain our search string
+                if(!filterString || filterString.length == 0 || [anItem.content xtodo_containsStringOrSubstrings:filterString seperatedByString:@" "])
+                {
+                    [arr addObject:anItem];
+                }
             }
         }
     }
@@ -279,6 +284,7 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
 
 + (NSArray*)findItemsWithProjectSetting:(ProjectSetting*)projectSetting
                             projectPath:(NSString*)projectPath
+                            containingContentString:(NSString *)filterString
 {
     NSArray* includeDirs = [projectSetting includeDirs];
     if ([includeDirs count] == 0) {
@@ -296,7 +302,8 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
                            fileTypes:[NSSet setWithObjects:@"H", @"hpp", @"M",
                                                            @"Mm", @"c", @"cpp",
                                                            @"cc", @"swift", nil]
-                        tempFilePath:tempFilePath];
+                        tempFilePath:tempFilePath
+                        containingContentString:filterString];
     }
     @catch (NSException* exception)
     {
