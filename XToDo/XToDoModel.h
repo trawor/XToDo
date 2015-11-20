@@ -3,7 +3,7 @@
 //  XToDo
 //
 //  Created by Travis on 13-11-28.
-//  Copyright (c) 2013年 Plumn LLC. All rights reserved.
+//  Copyright (c) 2013 fir.im  All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -134,6 +134,7 @@
 @interface XToDoItem : NSObject
 @property (nonatomic, copy) NSString* filePath;
 @property (nonatomic, assign) NSUInteger lineNumber;
+@property (nonatomic, assign) BOOL fixed;
 @property (nonatomic, assign) int type;
 @property (nonatomic, copy) NSString* typeString;
 @property (nonatomic, copy) NSString* content;
@@ -145,7 +146,7 @@
 + (IDEWorkspaceTabController*)tabController;
 + (IDESourceCodeEditor*)currentEditor;
 
-+ (NSArray*)findItemsWithProjectSetting:(ProjectSetting*)projectSetting projectPath:(NSString*)ProjectPath;
++ (NSArray*)findItemsWithProjectSetting:(ProjectSetting*)projectSetting projectPath:(NSString*)ProjectPath containingContentString:(NSString *)filterString;
 
 + (BOOL)openItem:(XToDoItem*)item;
 

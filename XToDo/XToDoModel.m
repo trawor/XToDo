@@ -3,7 +3,7 @@
 //  XToDo
 //
 //  Created by Travis on 13-11-28.
-//  Copyright (c) 2013年 Plumn LLC. All rights reserved.
+//  Copyright (c) 2013 fir.im  All rights reserved.
 //
 
 #import "XToDoModel.h"
@@ -217,6 +217,7 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
                          excludeDirs:(NSArray*)excludeDirs
                            fileTypes:(NSSet*)fileTypes
                         tempFilePath:(NSString*)tempFilePath
+                        containingContentString:(NSString *)filterString
 {
     // find all files match dirs and extnames
     NSArray* filePaths = [XToDoModel findFileNameWithProjectPath:projectPath
@@ -267,10 +268,14 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
     NSMutableArray* arr = [NSMutableArray array];
     for (NSString* line in results) {
         if (line.length > 4) {
-            id anItem = [self itemFromLine:line];
+            XToDoItem *anItem = [self itemFromLine:line];
 
             if (nil != anItem) {
-                [arr addObject:anItem];
+                // Filter out items that do not contain our search string
+                if(!filterString || filterString.length == 0 || [anItem.content xtodo_containsStringOrSubstrings:filterString seperatedByString:@" "])
+                {
+                    [arr addObject:anItem];
+                }
             }
         }
     }
@@ -279,6 +284,7 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
 
 + (NSArray*)findItemsWithProjectSetting:(ProjectSetting*)projectSetting
                             projectPath:(NSString*)projectPath
+                            containingContentString:(NSString *)filterString
 {
     NSArray* includeDirs = [projectSetting includeDirs];
     if ([includeDirs count] == 0) {
@@ -296,7 +302,8 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
                            fileTypes:[NSSet setWithObjects:@"H", @"hpp", @"M",
                                                            @"Mm", @"c", @"cpp",
                                                            @"cc", @"swift", nil]
-                        tempFilePath:tempFilePath];
+                        tempFilePath:tempFilePath
+                        containingContentString:filterString];
     }
     @catch (NSException* exception)
     {
@@ -312,7 +319,7 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
 
 + (XToDoItem*)itemFromLine:(NSString*)line
 {
-    NSArray* lineComponents = [line componentsSeparatedByString:@":"];
+    NSMutableArray* lineComponents = [[line componentsSeparatedByString:@":"] mutableCopy];
 
     // Validate the line
     if (lineComponents.count < 3) {
@@ -325,7 +332,12 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
     // Extract metadata from the line
     item.filePath = lineComponents[0];
     item.lineNumber = [lineComponents[1] integerValue];
-    item.typeString = lineComponents[2];
+	item.typeString = lineComponents[2];
+	
+	if (lineComponents.count >= 4 && [lineComponents[3] isEqualToString:@"!"]) {
+		[lineComponents removeObjectAtIndex:3];
+		item.fixed = YES;
+	}
 
     // Everything on the line after the keyword becomes description content shown
     // in the ToDo List window.
@@ -333,11 +345,7 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
     // string
     // Gratiutous colons and leading / trailing white space is already trimmed by
     // the regex in find.sh
-    NSString* trailingComment = @"";
-    for (NSUInteger i = 3; i < lineComponents.count; i++) {
-        trailingComment =
-            [trailingComment stringByAppendingString:lineComponents[i]];
-    }
+	NSString* trailingComment = [[lineComponents subarrayWithRange:NSMakeRange(3, lineComponents.count - 3)] componentsJoinedByString:@""];
 
     // Put something in the content just in case...
     // This should really be handled in the window view
