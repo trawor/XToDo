@@ -31,7 +31,7 @@
 {
     ProjectSetting* projectSetting = [[ProjectSetting alloc] init];
     projectSetting.includeDirs = @[ [XToDoModel rootPathMacro] ];
-    projectSetting.excludeDirs = @[ [XToDoModel addPathSlash:[[XToDoModel rootPathMacro] stringByAppendingPathComponent:@"Pods"]] ];
+    projectSetting.excludeDirs = @[ [XToDoModel addPathSlash:[[XToDoModel rootPathMacro] stringByAppendingPathComponent:@"Pods"]], [XToDoModel addPathSlash:[[XToDoModel rootPathMacro] stringByAppendingPathComponent:@"Carthage"]] ];
     return projectSetting;
 }
 
