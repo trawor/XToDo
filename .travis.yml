@@ -1,0 +1,3 @@
+language: objective-c
+xcode_project: XToDo.xcodeproj
+xcode_scheme: XToDo
