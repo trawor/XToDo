@@ -9,7 +9,6 @@
 #import "PathEditViewController.h"
 #import "XToDoModel.h"
 #import "XToDo.h"
-extern XToDo* sharedPlugin;
 
 @interface PathEditViewController ()
 @property IBOutlet NSTableView* tableView;
@@ -23,7 +22,7 @@ extern XToDo* sharedPlugin;
 - (id)initWithArray:(NSArray*)array
 {
     PathEditViewController* pathEditViewController = [self initWithNibName:@"PathEditViewController"
-                                                                    bundle:sharedPlugin.bundle];
+                                                                    bundle:[XToDo sharedPlugin].bundle];
     self.array = [[NSMutableArray alloc] initWithArray:array copyItems:YES];
     return pathEditViewController;
 }

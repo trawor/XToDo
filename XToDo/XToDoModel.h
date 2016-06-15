@@ -104,6 +104,7 @@
 @interface IDESourceCodeEditor : NSObject
 @property (retain) NSTextView* textView;
 - (IDESourceCodeDocument*)sourceCodeDocument;
+- (void)didSetupEditor;
 @end
 
 @interface IDEEditorContext : NSObject
@@ -149,6 +150,7 @@
 + (NSArray*)findItemsWithProjectSetting:(ProjectSetting*)projectSetting projectPath:(NSString*)ProjectPath containingContentString:(NSString *)filterString;
 
 + (BOOL)openItem:(XToDoItem*)item;
++ (void)highlightItem:(XToDoItem*)item inTextView:(NSTextView*)textView;
 
 + (void)cleanAllTempFiles;
 + (NSString*)addPathSlash:(NSString*)path;

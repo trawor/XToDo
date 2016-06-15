@@ -8,6 +8,13 @@
 
 #import <AppKit/AppKit.h>
 
+@class XToDoItem;
+
 @interface XToDo : NSObject
-@property (nonatomic, strong) NSBundle* bundle;
+
+@property (nonatomic, strong) NSBundle *bundle;
+@property (nonatomic, strong) XToDoItem *item;
+
++ (instancetype)sharedPlugin;
+
 @end

@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		1F40D85218473EA80010CDBA /* DVTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F40D85118473EA80010CDBA /* DVTKit.framework */; };
 		1F5B2E5118471B0A003529EC /* find.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B2E5018471B0A003529EC /* find.sh */; };
-		1F67ED3F1846E54F00E9E6AD /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F67ED3E1846E54F00E9E6AD /* AppKit.framework */; };
-		1F67ED411846E54F00E9E6AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F67ED401846E54F00E9E6AD /* Foundation.framework */; };
 		1F67ED471846E54F00E9E6AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F67ED451846E54F00E9E6AD /* InfoPlist.strings */; };
 		1F67ED4A1846E54F00E9E6AD /* XToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F67ED491846E54F00E9E6AD /* XToDo.m */; };
 		1F997742185227F500485D3F /* checkmark_off.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1F997740185227F500485D3F /* checkmark_off.tiff */; };
@@ -45,15 +43,17 @@
 		C36063A218EBDCE000F500EA /* NSData+Split.m in Sources */ = {isa = PBXBuildFile; fileRef = C36063A018EBDCE000F500EA /* NSData+Split.m */; };
 		C3F460FF18F43BE10009D503 /* ProjectSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F460FE18F43BE10009D503 /* ProjectSetting.m */; };
 		C3F4610018F43BE10009D503 /* ProjectSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F460FE18F43BE10009D503 /* ProjectSetting.m */; };
+		C50081A81D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = C50081A71D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.m */; };
+		C50081A91D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = C50081A71D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.m */; };
+		C50081AB1D1152B000A838C9 /* IDESourceEditor in Frameworks */ = {isa = PBXBuildFile; fileRef = C50081AA1D1152B000A838C9 /* IDESourceEditor */; };
+		C50081AC1D1152B000A838C9 /* IDESourceEditor in Frameworks */ = {isa = PBXBuildFile; fileRef = C50081AA1D1152B000A838C9 /* IDESourceEditor */; };
+		C50081AD1D11630300A838C9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FCB6E811851D45B002E6BC3 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F40D85118473EA80010CDBA /* DVTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTKit.framework; path = ../../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTKit.framework; sourceTree = "<group>"; };
-		1F5B2E3D184712E6003529EC /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		1F40D85118473EA80010CDBA /* DVTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTKit.framework; path = /Applications/Xcode.app/Contents/SharedFrameworks/DVTKit.framework; sourceTree = "<group>"; };
 		1F5B2E5018471B0A003529EC /* find.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = find.sh; sourceTree = "<group>"; };
 		1F67ED3B1846E54F00E9E6AD /* XToDo.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XToDo.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F67ED3E1846E54F00E9E6AD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		1F67ED401846E54F00E9E6AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F67ED441846E54F00E9E6AD /* XToDo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "XToDo-Info.plist"; sourceTree = "<group>"; };
 		1F67ED461846E54F00E9E6AD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1F67ED481846E54F00E9E6AD /* XToDo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XToDo.h; sourceTree = "<group>"; };
@@ -91,6 +91,9 @@
 		C36063A018EBDCE000F500EA /* NSData+Split.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Split.m"; sourceTree = "<group>"; };
 		C3F460FD18F43BE10009D503 /* ProjectSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSetting.h; sourceTree = "<group>"; };
 		C3F460FE18F43BE10009D503 /* ProjectSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSetting.m; sourceTree = "<group>"; };
+		C50081A61D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IDESourceCodeEditor+XToDo.h"; sourceTree = "<group>"; };
+		C50081A71D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IDESourceCodeEditor+XToDo.m"; sourceTree = "<group>"; };
+		C50081AA1D1152B000A838C9 /* IDESourceEditor */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = IDESourceEditor; path = /Applications/Xcode.app/Contents/PlugIns/IDESourceEditor.ideplugin/Contents/MacOS/IDESourceEditor; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,9 +101,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F67ED3F1846E54F00E9E6AD /* AppKit.framework in Frameworks */,
-				1F67ED411846E54F00E9E6AD /* Foundation.framework in Frameworks */,
+				C50081AB1D1152B000A838C9 /* IDESourceEditor in Frameworks */,
 				1F40D85218473EA80010CDBA /* DVTKit.framework in Frameworks */,
+				C50081AD1D11630300A838C9 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C50081AC1D1152B000A838C9 /* IDESourceEditor in Frameworks */,
 				1FCB6E821851D45B002E6BC3 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,11 +141,8 @@
 		1F67ED3D1846E54F00E9E6AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C50081AA1D1152B000A838C9 /* IDESourceEditor */,
 				1F40D85118473EA80010CDBA /* DVTKit.framework */,
-				1F67ED3E1846E54F00E9E6AD /* AppKit.framework */,
-				1F67ED401846E54F00E9E6AD /* Foundation.framework */,
-				1F5B2E3D184712E6003529EC /* XCTest.framework */,
-				1FCB6E811851D45B002E6BC3 /* Cocoa.framework */,
 				1FCB6E831851D45B002E6BC3 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -170,6 +171,8 @@
 				C36063A018EBDCE000F500EA /* NSData+Split.m */,
 				816AE24D1AD1A44F003A8FCA /* NSString+Additions.h */,
 				816AE24E1AD1A44F003A8FCA /* NSString+Additions.m */,
+				C50081A61D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.h */,
+				C50081A71D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.m */,
 			);
 			path = XToDo;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				1FCB6E841851D45B002E6BC3 /* AppKit.framework */,
+				1FCB6E811851D45B002E6BC3 /* Cocoa.framework */,
 				1FCB6E851851D45B002E6BC3 /* CoreData.framework */,
 				1FCB6E861851D45B002E6BC3 /* Foundation.framework */,
 			);
@@ -325,6 +329,7 @@
 			files = (
 				C36063A118EBDCE000F500EA /* NSData+Split.m in Sources */,
 				814ABA731AD1A603004CD467 /* NSString+Additions.m in Sources */,
+				C50081A81D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.m in Sources */,
 				1F67ED4A1846E54F00E9E6AD /* XToDo.m in Sources */,
 				C338F4DE18F4FBAF00EDE66E /* PathEditViewController.m in Sources */,
 				6EFEA8AF1894757200FD9595 /* XToDoPreferencesWindowController.m in Sources */,
@@ -348,6 +353,7 @@
 				C338F4DF18F4FBAF00EDE66E /* PathEditViewController.m in Sources */,
 				1FCB6EB41851D487002E6BC3 /* XToDoModel.m in Sources */,
 				1FCB6E8E1851D45B002E6BC3 /* main.m in Sources */,
+				C50081A91D1151FC00A838C9 /* IDESourceCodeEditor+XToDo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

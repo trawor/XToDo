@@ -9,8 +9,10 @@
 #import "XToDo.h"
 #import "XToDoModel.h"
 #import "XToDoWindowController.h"
+#import "IDESourceCodeEditor+XToDo.h"
+#import <objc/runtime.h>
 
-XToDo* sharedPlugin = nil;
+XToDo* _sharedPlugin = nil;
 
 @interface XToDo ()
 @property (nonatomic, strong) XToDoWindowController* windowController;
@@ -27,11 +29,16 @@ XToDo* sharedPlugin = nil;
     static dispatch_once_t onceToken;
 
     NSString* currentApplicationName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
-    if (sharedPlugin == nil && [currentApplicationName isEqual:@"Xcode"]) {
+    if (_sharedPlugin == nil && [currentApplicationName isEqual:@"Xcode"]) {
         dispatch_once(&onceToken, ^{
-            sharedPlugin=[[self alloc] initWithBundle:plugin];
+            _sharedPlugin=[[self alloc] initWithBundle:plugin];
         });
     }
+}
+
++ (instancetype)sharedPlugin
+{
+    return _sharedPlugin;
 }
 
 - (id)initWithBundle:(NSBundle*)plugin
@@ -53,6 +60,7 @@ XToDo* sharedPlugin = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:NSApplicationDidFinishLaunchingNotification
                                                   object:nil];
+    [IDESourceCodeEditor xtodo_hook];
 }
 
 - (void)addMenuItems {

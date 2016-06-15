@@ -13,6 +13,8 @@
 
 #import "NSData+Split.h"
 
+#import "XToDo.h"
+
 static NSBundle* pluginBundle;
 
 @implementation XToDoItem
@@ -407,9 +409,13 @@ typedef void (^OnFindedItem)(NSString* fullPath, BOOL isDirectory,
             if ([editor isKindOfClass:NSClassFromString(@"IDESourceCodeEditor")]) {
                 NSTextView* textView = editor.textView;
                 if (textView) {
-
+                    
                     [self highlightItem:item inTextView:textView];
-
+                    
+                    // At this time, the editor may not finished setup.
+                    // So, save the item.
+                    [XToDo sharedPlugin].item = item;
+                    
                     return YES;
                 }
             }
