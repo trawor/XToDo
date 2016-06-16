@@ -44,6 +44,7 @@
     XToDoItem *item = [XToDo sharedPlugin].item;
     if (item) {
         [XToDoModel highlightItem:item inTextView:self.textView];
+        [XToDo sharedPlugin].item = nil;
     }
 }
 
